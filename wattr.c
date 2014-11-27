@@ -32,7 +32,7 @@ xcbinit(void)
 {
 	conn = xcb_connect(NULL, NULL);
 	if (xcb_connection_has_error(conn))
-		errx(1, "xcb_connect");
+		errx(1, "unable to connect to the X server");
 }
 
 static void
@@ -69,7 +69,7 @@ getattribute(xcb_window_t w, int attr)
 	r = xcb_get_geometry_reply(conn, c, NULL);
 
 	if (r == NULL)
-		errx(1, "xcb_get_geometry");
+		errx(1, "0x%08x: no such window", w);
 
 	switch (attr) {
 		case ATTR_W: attr = r->width  + 2 * r->border_width; break;

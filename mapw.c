@@ -31,7 +31,7 @@ xcbinit(void)
 {
 	conn = xcb_connect(NULL, NULL);
 	if (xcb_connection_has_error(conn))
-		errx(1, "xcb_connect");
+		errx(1, "unable to connect to the X server");
 }
 
 static void

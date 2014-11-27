@@ -18,7 +18,7 @@ static int ismapped(xcb_window_t w);
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-ah] [<wid>]\n", argv0);
+	fprintf(stderr, "usage: %s [-har] [wid...]\n", argv0);
 	exit(1);
 }
 
@@ -27,12 +27,12 @@ xcbinit(void)
 {
 	conn = xcb_connect(NULL, NULL);
 	if (xcb_connection_has_error(conn))
-		errx(1, "xcb_connect");
+		errx(1, "unable connect to the X server");
 
 	scrn = xcb_setup_roots_iterator(xcb_get_setup(conn)).data;
 
 	if (scrn == NULL)
-		errx(1, "xcb_setup_roots_iterator");
+		errx(1, "unable to retrieve screen informations");
 }
 
 static void
@@ -72,11 +72,11 @@ listwindows(xcb_window_t w, int listhidden)
 	c = xcb_query_tree(conn, w);
 	r = xcb_query_tree_reply(conn, c, NULL);
 	if (r == NULL)
-		errx(1, "xcb_query_tree_reply");
+		errx(1, "0x%08x: no such window", w);
 
 	wc = xcb_query_tree_children(r);
 	if (wc == NULL)
-		errx(1, "xcb_query_tree_children");
+		errx(1, "0x%08x: unable to retrieve children", w);
 
 	for (i=0; i<r->children_len; i++) {
 		if (ismapped(wc[i]) || listhidden)
