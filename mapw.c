@@ -22,7 +22,7 @@ static int ismapped(xcb_window_t w);
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-hmut] <wid> [wid..]\n", argv0);
+	fprintf(stderr, "usage: %s [-h] [-mut <wid> [wid..]]\n", argv0);
 	exit(1);
 }
 
@@ -63,7 +63,7 @@ ismapped(xcb_window_t w)
 int
 main(int argc, char **argv)
 {
-	int i, mapflag = MAP;
+	int i, mapflag = 0;
 	xcb_window_t w = 0;
 
 	ARGBEGIN {
@@ -73,7 +73,7 @@ main(int argc, char **argv)
 		default : usage();
 	} ARGEND;
 
-	if (argc < 1)
+	if (argc < 1 || mapflag == 0)
 		usage();
 
 	atexit(cleanup);
