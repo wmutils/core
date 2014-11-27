@@ -43,6 +43,23 @@ cleanup(void)
 }
 
 static int
+exists(xcb_window_t w)
+{
+	int ms;
+	xcb_get_window_attributes_cookie_t c;
+	xcb_get_window_attributes_reply_t  *r;
+
+	c = xcb_get_window_attributes(conn, w);
+	r = xcb_get_window_attributes_reply(conn, c, NULL);
+
+	if (r == NULL)
+		return 0;
+
+	free(r);
+	return 1;
+}
+
+static int
 getattribute(xcb_window_t w, int attr)
 {
 	xcb_get_geometry_cookie_t c;
@@ -71,13 +88,15 @@ main(int argc, char **argv)
 	int i;
 	xcb_window_t w = 0;
 
-	if (argc < 2 || (strncmp(argv[1], "-h", 2) == 0))
+	if (argc < 2 || (strncmp(argv[1], "-h", 2) == 0)) {
+		argv0 = argv[0];
 		usage();
+	}
 
 	atexit(cleanup);
 	xcbinit();
 
-	w = strtoul(argv[2], NULL, 16);
+	w = strtoul(argv[argc-1], NULL, 16);
 
 	for (i=0; i<strnlen(argv[1], ATTR_MAX); i++) {
 		switch (argv[1][i]) {
@@ -85,6 +104,7 @@ main(int argc, char **argv)
 			case 'h': printf("%d", getattribute(w, ATTR_H)); break;
 			case 'x': printf("%d", getattribute(w, ATTR_X)); break;
 			case 'y': printf("%d", getattribute(w, ATTR_Y)); break;
+			default : exists(w) ? exit(0) : exit(1);
 		}
 
 		/* add a space if more attribute come after */
