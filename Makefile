@@ -1,8 +1,8 @@
 PREFIX:=/usr
 MANPREFIX:=$(PREFIX)/share/man
 
-CC = cc
-LD = $(CC)
+CC      ?= cc
+LD       = $(CC)
 CFLAGS  += -std=c99 -pedantic -Wall -Os
 LDFLAGS += -lxcb
 
@@ -29,7 +29,7 @@ $(OBJ): $(HDR)
 
 .c.o:
 	@echo "CC $<"
-	@$(CC) -c $< -o $@ $(LDFLAGS)
+	@$(CC) -c $< -o $@ $(CFLAGS)
 
 install: $(BIN)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin/
