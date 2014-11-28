@@ -1,7 +1,6 @@
 
-core
-====
-    -- by dcat and z3bra
+wmutils' core
+=============
 
 wmutils' core is a set of tools for X windows manipulation. Each tool only has
 a single purpose, in order to one thing and do it well.
