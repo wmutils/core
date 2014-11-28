@@ -12,7 +12,6 @@ static xcb_screen_t *scrn;
 static void usage(void);
 static void xcbinit(void);
 static void cleanup(void);
-static xcb_window_t getroot(void);
 static int ismapped(xcb_window_t w);
 
 static void

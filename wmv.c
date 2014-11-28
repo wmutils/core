@@ -93,8 +93,9 @@ cleanup (void) {
 
 
 int main (int argc, char **argv) {
-	atexit(cleanup);
 	xcb_window_t win;
+
+	atexit(cleanup);
 
 	if (argc != 4)
 		errx(1, "usage: %s <x> <y> <win>", argv[0]);

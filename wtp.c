@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <err.h>
 
-static xcb_connection_t	*conn;
+static xcb_connection_t *conn;
 
 static void cleanup    (void);
 static void usage      (char *name);
@@ -77,8 +77,9 @@ teleport (xcb_window_t win, int x, int y, int w, int h)
 int
 main (int argc, char **argv)
 {
-	atexit(cleanup);
 	xcb_window_t win;
+
+	atexit(cleanup);
 
 	if (argc != 6)
 		usage(argv[0]);

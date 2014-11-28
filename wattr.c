@@ -45,7 +45,6 @@ cleanup(void)
 static int
 exists(xcb_window_t w)
 {
-	int ms;
 	xcb_get_window_attributes_cookie_t c;
 	xcb_get_window_attributes_reply_t  *r;
 
@@ -98,7 +97,7 @@ main(int argc, char **argv)
 
 	w = strtoul(argv[argc-1], NULL, 16);
 
-	for (i=0; i<strnlen(argv[1], ATTR_MAX); i++) {
+	for (i=0; i<strlen(argv[1]); i++) {
 		switch (argv[1][i]) {
 			case 'w': printf("%d", getattribute(w, ATTR_W)); break;
 			case 'h': printf("%d", getattribute(w, ATTR_H)); break;
@@ -108,7 +107,7 @@ main(int argc, char **argv)
 		}
 
 		/* add a space if more attribute come after */
-		putc(i+1 < strnlen(argv[1], ATTR_MAX) ? ' ' : '\n',stdout);
+		putc(i+1 < strlen(argv[1]) ? ' ' : '\n',stdout);
 	}
 
 	return 0;

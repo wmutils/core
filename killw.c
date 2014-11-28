@@ -5,7 +5,6 @@
 
 static xcb_connection_t *conn;
 
-static void usage(void);
 static void xcbinit(void);
 static void cleanup(void);
 

@@ -56,12 +56,12 @@ center_pointer (xcb_window_t win)
 			XCB_CURRENT_TIME);
 }
 
-
 int
 main (int argc, char **argv)
 {
-	atexit(cleanup);
 	xcb_window_t win;
+
+	atexit(cleanup);
 
 	if (argc != 2)
 		usage(argv[0]);
