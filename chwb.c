@@ -37,7 +37,7 @@ cleanup (void)
 static void
 usage (char *name)
 {
-	fprintf(stderr, "usage: %s <-ds> [-c color] <wid>\n", name);
+	fprintf(stderr, "usage: %s <-sc ...> <wid> [wid...]\n", name);
 	exit(1);
 }
 
