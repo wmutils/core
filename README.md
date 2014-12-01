@@ -27,6 +27,7 @@ what?
 Here are the tools. This project is quite young, new tools can arrive
 without being added to this list, so take it with a grain of salt.
 
+* chwb  - change window's border
 * chwso - change window stack order
 * killw - kill windows
 * lsw   - list windows
@@ -59,6 +60,12 @@ examples
 
     # put current window in the top-left corner
     wtp 0 0 $(wattr wh `pfw`) $(pfw)
+
+    # focus next window and set it as active
+    next=$(lsw|grep -v $pfw)|sed 1q)
+    lsw | xargs chwb -s 4 -c 0
+    chwb -s 4 -c 0xff0000 $next
+    wtf $next
 
 Just let your imagination flow through you...
 
