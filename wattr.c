@@ -101,11 +101,11 @@ main(int argc, char **argv)
 
 	for (i=0; i<strlen(argv[1]); i++) {
 		switch (argv[1][i]) {
-			case 'b': printf("%d", getattribute(w, ATTR_W)); break;
+			case 'b': printf("%d", getattribute(w, ATTR_B)); break;
 			case 'h': printf("%d", getattribute(w, ATTR_H)); break;
 			case 'x': printf("%d", getattribute(w, ATTR_X)); break;
 			case 'y': printf("%d", getattribute(w, ATTR_Y)); break;
-			case 'w': printf("%d", getattribute(w, ATTR_B)); break;
+			case 'w': printf("%d", getattribute(w, ATTR_W)); break;
 			default : exists(w) ? exit(0) : exit(1);
 		}
 
