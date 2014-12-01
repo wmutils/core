@@ -17,13 +17,14 @@ enum {
 	ATTR_H = 1 << 1,
 	ATTR_X = 1 << 2,
 	ATTR_Y = 1 << 3,
+	ATTR_B = 1 << 4,
 	ATTR_MAX
 };
 
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-h] [whxy] <wid>\n", argv0);
+	fprintf(stderr, "usage: %s [-h] [bwhxy] <wid>\n", argv0);
 	exit(1);
 }
 
@@ -75,6 +76,7 @@ getattribute(xcb_window_t w, int attr)
 		case ATTR_H: attr = r->height + 2 * r->border_width; break;
 		case ATTR_X: attr = r->x - r->border_width; break;
 		case ATTR_Y: attr = r->y - r->border_width; break;
+		case ATTR_B: attr = r->border_width; break;
 	}
 
 	free(r);
@@ -99,10 +101,11 @@ main(int argc, char **argv)
 
 	for (i=0; i<strlen(argv[1]); i++) {
 		switch (argv[1][i]) {
-			case 'w': printf("%d", getattribute(w, ATTR_W)); break;
+			case 'b': printf("%d", getattribute(w, ATTR_W)); break;
 			case 'h': printf("%d", getattribute(w, ATTR_H)); break;
 			case 'x': printf("%d", getattribute(w, ATTR_X)); break;
 			case 'y': printf("%d", getattribute(w, ATTR_Y)); break;
+			case 'w': printf("%d", getattribute(w, ATTR_B)); break;
 			default : exists(w) ? exit(0) : exit(1);
 		}
 
