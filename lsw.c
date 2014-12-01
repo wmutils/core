@@ -88,7 +88,7 @@ listwindows(xcb_window_t w, int listhidden)
 int
 main(int argc, char **argv)
 {
-	int i, hiddenflag = 0, rootflag = 0;
+	int hiddenflag = 0, rootflag = 0;
 
 	ARGBEGIN {
 		case 'a': hiddenflag = 1; break;
@@ -107,8 +107,8 @@ main(int argc, char **argv)
 	if (argc == 0)
 		listwindows(scrn->root, hiddenflag);
 
-	for (i=0; i<argc; i++)
-		listwindows(strtoul(argv[i], NULL, 16), hiddenflag);
+	while (*argv)
+		listwindows(strtoul(*argv++, NULL, 16), hiddenflag);
 
 	return 0;
 }

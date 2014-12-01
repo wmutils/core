@@ -26,13 +26,12 @@ cleanup(void)
 int
 main(int argc, char **argv)
 {
-	int i;
-
 	atexit(cleanup);
 	xcbinit();
 
-	for (i=1; i<argc; i++)
-		xcb_kill_client(conn, strtoul(argv[i], NULL, 16));
+	/* assume remaining arguments are windows */
+	while (*argv)
+		xcb_kill_client(conn, strtoul(*argv++, NULL, 16));
 
 	xcb_flush(conn);
 

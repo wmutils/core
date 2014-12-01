@@ -63,7 +63,7 @@ ismapped(xcb_window_t w)
 int
 main(int argc, char **argv)
 {
-	int i, mapflag = 0;
+	int mapflag = 0;
 	xcb_window_t w = 0;
 
 	ARGBEGIN {
@@ -79,8 +79,8 @@ main(int argc, char **argv)
 	atexit(cleanup);
 	xcbinit();
 
-	for (i=0; i<argc; i++) {
-		w = strtoul(argv[i], NULL, 16);
+	while (*argv) {
+		w = strtoul(*argv++, NULL, 16);
 
 		switch (mapflag) {
 		case MAP:

@@ -83,16 +83,18 @@ resize(xcb_window_t w, int x, int y)
 int
 main(int argc, char **argv)
 {
-	int i;
-
+	int x, y;
 	if (argc < 4)
 		errx(1, "usage: %s <x> <y> <wid> [wid..]", argv[0]);
 
 	atexit(cleanup);
 	xcbinit();
 
-	for (i=3; i<argc; i++)
-		resize(strtoul(argv[i], NULL, 16), atoi(argv[1]), atoi(argv[2]));
+	x = atoi(*(++argv));
+	y = atoi(*(++argv));
+
+	while (*argv)
+		resize(strtoul(*argv++, NULL, 16), x, y);
 
 	xcb_flush(conn);
 
