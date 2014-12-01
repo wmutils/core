@@ -11,6 +11,8 @@ static void usage(void);
 static void xcbinit(void);
 static void cleanup(void);
 static int getattribute(xcb_window_t, int);
+static int mapped(xcb_window_t);
+static int exists(xcb_window_t);
 
 enum {
 	ATTR_W = 1 << 0,
@@ -18,13 +20,14 @@ enum {
 	ATTR_X = 1 << 2,
 	ATTR_Y = 1 << 3,
 	ATTR_B = 1 << 4,
+	ATTR_M = 1 << 5,
 	ATTR_MAX
 };
 
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-h] [bwhxy] <wid>\n", argv0);
+	fprintf(stderr, "usage: %s [-h] [bmwhxy] <wid>\n", argv0);
 	exit(1);
 }
 
@@ -57,6 +60,25 @@ exists(xcb_window_t w)
 
 	free(r);
 	return 1;
+}
+
+static int
+mapped(xcb_window_t w)
+{
+	int ms;
+	xcb_get_window_attributes_cookie_t c;
+	xcb_get_window_attributes_reply_t  *r;
+
+	c = xcb_get_window_attributes(conn, w);
+	r = xcb_get_window_attributes_reply(conn, c, NULL);
+
+	if (r == NULL)
+		return 0;
+
+	ms = r->map_state;
+
+	free(r);
+	return ms == XCB_MAP_STATE_VIEWABLE;
 }
 
 static int
@@ -106,6 +128,7 @@ main(int argc, char **argv)
 			case 'x': printf("%d", getattribute(w, ATTR_X)); break;
 			case 'y': printf("%d", getattribute(w, ATTR_Y)); break;
 			case 'w': printf("%d", getattribute(w, ATTR_W)); break;
+			case 'm': mapped(w) ? exit(0) : exit(1);
 			default : exists(w) ? exit(0) : exit(1);
 		}
 
