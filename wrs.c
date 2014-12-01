@@ -19,6 +19,7 @@
 #include <err.h>
 
 static xcb_connection_t *conn;
+static xcb_screen_t *scrn;
 
 static void cleanup(void);
 static void resize(xcb_window_t, int, int);
@@ -29,6 +30,11 @@ xcbinit(void)
 	conn = xcb_connect(NULL, NULL);
 	if (xcb_connection_has_error(conn))
 		errx(1, "unable to connect to the X server");
+
+	scrn = xcb_setup_roots_iterator(xcb_get_setup(conn)).data;
+
+	if (scrn == NULL)
+		errx(1, "unable to retrieve screen informations");
 }
 
 static void
@@ -53,6 +59,14 @@ resize(xcb_window_t w, int x, int y)
 
 	if (r == NULL)
 		return;
+
+	if ((r->x + r->width + 2*r->border_width + x) > scrn->width_in_pixels)
+		x = scrn->width_in_pixels - (
+				r->x + r->width + (2*r->border_width));
+
+	if ((r->y + r->height + 2*r->border_width + y) > scrn->height_in_pixels)
+		y = scrn->height_in_pixels - (
+				r->y + r->height + (2*r->border_width));
 
 	val[0] = r->width  + x;
 	val[1] = r->height + y;
