@@ -73,7 +73,7 @@ main(int argc, char **argv)
 		default : usage();
 	} ARGEND;
 
-	if (argc < 1 || mapflag == 0)
+	if (argc < 1)
 		usage();
 
 	atexit(cleanup);
@@ -96,6 +96,8 @@ main(int argc, char **argv)
 				xcb_map_window(conn, w);
 			}
 			break;
+		default:
+			return ismapped(w) ? 0 : 1;
 		}
 	}
 	xcb_flush(conn);
