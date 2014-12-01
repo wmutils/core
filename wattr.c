@@ -72,10 +72,10 @@ getattribute(xcb_window_t w, int attr)
 		errx(1, "0x%08x: no such window", w);
 
 	switch (attr) {
-		case ATTR_W: attr = r->width  + 2 * r->border_width; break;
-		case ATTR_H: attr = r->height + 2 * r->border_width; break;
-		case ATTR_X: attr = r->x - r->border_width; break;
-		case ATTR_Y: attr = r->y - r->border_width; break;
+		case ATTR_X: attr = r->x; break;
+		case ATTR_Y: attr = r->y; break;
+		case ATTR_W: attr = r->width; break;
+		case ATTR_H: attr = r->height; break;
 		case ATTR_B: attr = r->border_width; break;
 	}
 
