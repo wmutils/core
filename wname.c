@@ -35,6 +35,8 @@ get_title (xcb_window_t win)
 
 	if (r) {
 		len = xcb_get_property_value_length(r);
+		if (!len)
+			return 1;
 		printf("%.*s\n", len, (char *) xcb_get_property_value(r));
 
 		return 0;
