@@ -18,7 +18,7 @@ static void cleanup (void)
 static void
 usage (char *name)
 {
-	fprintf(stderr, "usage: %s <wid>", name);
+	fprintf(stderr, "usage: %s <wid>\n", name);
 	exit(1);
 }
 
