@@ -18,7 +18,8 @@ SRC =           \
 	chwso.c \
 	wtf.c   \
 	wrs.c   \
-	chwb.c
+	chwb.c  \
+	wname.c
 
 OBJ = $(SRC:.c=.o)
 BIN = $(SRC:.c=)
