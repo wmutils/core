@@ -12,7 +12,8 @@ static xcb_screen_t *scrn;
 static void usage(void);
 static void xcbinit(void);
 static void cleanup(void);
-static int ismapped(xcb_window_t w);
+static int mapped(xcb_window_t);
+static int ignored(xcb_window_t);
 
 static void
 usage(void)
@@ -42,7 +43,7 @@ cleanup(void)
 }
 
 static int
-ismapped(xcb_window_t w)
+mapped(xcb_window_t w)
 {
 	int ms;
 	xcb_get_window_attributes_cookie_t c;
@@ -58,6 +59,25 @@ ismapped(xcb_window_t w)
 
 	free(r);
 	return ms;
+}
+
+static int
+ignored(xcb_window_t w)
+{
+	int or;
+	xcb_get_window_attributes_cookie_t c;
+	xcb_get_window_attributes_reply_t  *r;
+
+	c = xcb_get_window_attributes(conn, w);
+	r = xcb_get_window_attributes_reply(conn, c, NULL);
+
+	if (r == NULL)
+		return 0;
+
+	or = r->override_redirect;
+
+	free(r);
+	return or;
 }
 
 static void
@@ -78,8 +98,10 @@ listwindows(xcb_window_t w, int listhidden)
 		errx(1, "0x%08x: unable to retrieve children", w);
 
 	for (i=0; i<r->children_len; i++) {
-		if (ismapped(wc[i]) || listhidden)
-			printf("0x%08x\n", wc[i]);
+		if (!ignored(wc[i])) {
+			if (mapped(wc[i]) || listhidden)
+				printf("0x%08x\n", wc[i]);
+		}
 	}
 
 	free(r);
