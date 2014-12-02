@@ -29,6 +29,7 @@ without being added to this list, so take it with a grain of salt.
 
 * chwb  - change window's border
 * chwso - change window stack order
+* ignw  - mark window as ignored
 * killw - kill windows
 * lsw   - list windows
 * mapw  - map/unmap windows
