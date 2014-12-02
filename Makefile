@@ -3,7 +3,7 @@ MANPREFIX:=$(PREFIX)/share/man
 
 CC      ?= cc
 LD       = $(CC)
-CFLAGS  += -std=c99 -pedantic -ansi -Wall -Os
+CFLAGS  += -std=c99 -pedantic -Wall -Os
 LDFLAGS += -lxcb
 
 HDR = arg.h

@@ -47,7 +47,7 @@ get_title (xcb_window_t win)
 
 int main (int argc, char **argv)
 {
-	int r = 0;
+	int i, r = 0;
 
 	if (argc < 2)
 		usage(argv[0]);
@@ -56,7 +56,7 @@ int main (int argc, char **argv)
 	if (xcb_connection_has_error(conn = xcb_connect(NULL, NULL)))
 		errx(1, "error connecting to X");
 
-	for (int i=1; i < argc; i++)
+	for (i=1; i < argc; i++)
 		r += get_title(strtoul(argv[i], NULL, 16));
 
 	return r;
