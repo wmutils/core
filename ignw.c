@@ -13,6 +13,13 @@ static void cleanup(void);
 static void ignore(xcb_window_t);
 
 static void
+usage(void)
+{
+	fprintf(stderr, "usage: %s [-sr] <wid> [wid..]\n", argv0);
+	exit(1);
+}
+
+static void
 xcbinit(void)
 {
 	conn = xcb_connect(NULL, NULL);
@@ -28,10 +35,10 @@ cleanup(void)
 }
 
 static void
-ignore(xcb_window_t w)
+setoverride(xcb_window_t w, int or)
 {
 	uint32_t mask = XCB_CW_OVERRIDE_REDIRECT;
-	uint32_t val[] = { 1 };
+	uint32_t val[] = { or };
 
 	xcb_change_window_attributes(conn, w, mask, val);
 }
@@ -39,11 +46,18 @@ ignore(xcb_window_t w)
 int
 main(int argc, char **argv)
 {
+	int setflag = 0;
+
+	ARGBEGIN {
+		case 's': setflag = 1; break;
+		case 'r': setflag = 0; break;
+		default: usage();
+	} ARGEND;
 	atexit(cleanup);
 	xcbinit();
 
 	while (*argv)
-		ignore(strtoul(*argv++, NULL, 16));
+		setoverride(strtoul(*argv++, NULL, 16), setflag);
 
 	xcb_flush(conn);
 
