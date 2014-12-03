@@ -14,6 +14,12 @@ static void xcbinit(void);
 static void cleanup(void);
 static int mapped(xcb_window_t);
 static int ignored(xcb_window_t);
+static int shouldlist(xcb_window_t, int);
+
+enum {
+	LIST_HIDDEN = 1 << 0,
+	LIST_IGNORE = 1 << 1
+};
 
 static void
 usage(void)
@@ -58,7 +64,7 @@ mapped(xcb_window_t w)
 	ms = r->map_state;
 
 	free(r);
-	return ms;
+	return ms == XCB_MAP_STATE_VIEWABLE;
 }
 
 static int
@@ -80,8 +86,20 @@ ignored(xcb_window_t w)
 	return or;
 }
 
+static int
+shouldlist(xcb_window_t w, int mask)
+{
+	if (ignored(w) && !(mask & LIST_IGNORE))
+		return 0;
+
+	if (!mapped(w) && !(mask & LIST_HIDDEN))
+		 return 0;
+
+	return 1;
+}
+
 static void
-listwindows(xcb_window_t w, int listhidden)
+listwindows(xcb_window_t w, int listmask)
 {
 	int i;
 	xcb_window_t *wc;
@@ -98,10 +116,8 @@ listwindows(xcb_window_t w, int listhidden)
 		errx(1, "0x%08x: unable to retrieve children", w);
 
 	for (i=0; i<r->children_len; i++) {
-		if (!ignored(wc[i])) {
-			if (mapped(wc[i]) || listhidden)
-				printf("0x%08x\n", wc[i]);
-		}
+		if (shouldlist(wc[i], listmask))
+			printf("0x%08x\n", wc[i]);
 	}
 
 	free(r);
@@ -110,10 +126,11 @@ listwindows(xcb_window_t w, int listhidden)
 int
 main(int argc, char **argv)
 {
-	int hiddenflag = 0, rootflag = 0;
+	int listmask = 0, rootflag = 0;
 
 	ARGBEGIN {
-		case 'a': hiddenflag = 1; break;
+		case 'a': listmask |= LIST_HIDDEN; break;
+		case 'i': listmask |= LIST_IGNORE; break;
 		case 'r': rootflag = 1; break;
 		default : usage();
 	} ARGEND;
@@ -127,10 +144,10 @@ main(int argc, char **argv)
 	}
 
 	if (argc == 0)
-		listwindows(scrn->root, hiddenflag);
+		listwindows(scrn->root, listmask);
 
 	while (*argv)
-		listwindows(strtoul(*argv++, NULL, 16), hiddenflag);
+		listwindows(strtoul(*argv++, NULL, 16), listmask);
 
 	return 0;
 }
