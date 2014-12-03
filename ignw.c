@@ -8,9 +8,10 @@
 char *argv0;
 static xcb_connection_t *conn;
 
+static void usage(void);
 static void xcbinit(void);
 static void cleanup(void);
-static void ignore(xcb_window_t);
+static void setoverride(xcb_window_t, int);
 
 static void
 usage(void)
