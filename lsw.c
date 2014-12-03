@@ -24,7 +24,7 @@ enum {
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-har] [wid...]\n", argv0);
+	fprintf(stderr, "usage: %s [-hiar] [wid...]\n", argv0);
 	exit(1);
 }
 
