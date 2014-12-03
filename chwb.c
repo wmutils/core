@@ -81,10 +81,10 @@ main (int argc, char **argv)
 
 	ARGBEGIN {
 		case 's':
-			bw = strtoul(ARGF(), NULL, 10);
+			bw = strtoul(EARGF(usage(argv0)), NULL, 10);
 			break;
 		case 'c':
-			color = strtoul(ARGF(), NULL, 16);
+			color = strtoul(EARGF(usage(argv0)), NULL, 16);
 			break;
 		case 'h':
 			usage(argv0);
