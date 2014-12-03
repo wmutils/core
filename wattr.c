@@ -21,13 +21,14 @@ enum {
 	ATTR_Y = 1 << 3,
 	ATTR_B = 1 << 4,
 	ATTR_M = 1 << 5,
+	ATTR_I = 1 << 6,
 	ATTR_MAX
 };
 
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-h] [bmwhxy] <wid>\n", argv0);
+	fprintf(stderr, "usage: %s [-h] [bmiwhxy] <wid>\n", argv0);
 	exit(1);
 }
 
@@ -82,6 +83,25 @@ mapped(xcb_window_t w)
 }
 
 static int
+ignored(xcb_window_t w)
+{
+	int or;
+	xcb_get_window_attributes_cookie_t c;
+	xcb_get_window_attributes_reply_t  *r;
+
+	c = xcb_get_window_attributes(conn, w);
+	r = xcb_get_window_attributes_reply(conn, c, NULL);
+
+	if (r == NULL)
+		return 0;
+
+	or = r->override_redirect;
+
+	free(r);
+	return or;
+}
+
+static int
 getattribute(xcb_window_t w, int attr)
 {
 	xcb_get_geometry_cookie_t c;
@@ -128,6 +148,7 @@ main(int argc, char **argv)
 			case 'x': printf("%d", getattribute(w, ATTR_X)); break;
 			case 'y': printf("%d", getattribute(w, ATTR_Y)); break;
 			case 'w': printf("%d", getattribute(w, ATTR_W)); break;
+			case 'i': ignored(w)? exit(0) : exit(1);
 			case 'm': mapped(w) ? exit(0) : exit(1);
 			default : exists(w) ? exit(0) : exit(1);
 		}
