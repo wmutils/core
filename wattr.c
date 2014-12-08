@@ -128,7 +128,7 @@ getattribute(xcb_window_t w, int attr)
 int
 main(int argc, char **argv)
 {
-	int i;
+	int i,c;
 	xcb_window_t w = 0;
 
 	if (argc < 2 || (strncmp(argv[1], "-h", 2) == 0)) {
@@ -139,22 +139,30 @@ main(int argc, char **argv)
 	atexit(cleanup);
 	xcbinit();
 
-	w = strtoul(argv[argc-1], NULL, 16);
+	for (c=2; argv[c]; c++) {
+		w = strtoul(argv[c], NULL, 16);
 
-	for (i=0; i<strlen(argv[1]); i++) {
-		switch (argv[1][i]) {
-			case 'b': printf("%d", getattribute(w, ATTR_B)); break;
-			case 'h': printf("%d", getattribute(w, ATTR_H)); break;
-			case 'x': printf("%d", getattribute(w, ATTR_X)); break;
-			case 'y': printf("%d", getattribute(w, ATTR_Y)); break;
-			case 'w': printf("%d", getattribute(w, ATTR_W)); break;
-			case 'i': ignored(w)? exit(0) : exit(1);
-			case 'm': mapped(w) ? exit(0) : exit(1);
-			default : exists(w) ? exit(0) : exit(1);
+		for (i=0; i<strlen(argv[1]); i++) {
+			switch (argv[1][i]) {
+				case 'i': printf("0x%08x", w);
+					  break;
+				case 'b': printf("%d", getattribute(w, ATTR_B));
+					  break;
+				case 'h': printf("%d", getattribute(w, ATTR_H));
+					  break;
+				case 'x': printf("%d", getattribute(w, ATTR_X));
+					  break;
+				case 'y': printf("%d", getattribute(w, ATTR_Y));
+					  break;
+				case 'w': printf("%d", getattribute(w, ATTR_W));
+					  break;
+				case 'o': ignored(w)? exit(0) : exit(1);
+				case 'm': mapped(w) ? exit(0) : exit(1);
+				default : exists(w) ? exit(0) : exit(1);
+			}
+			/* add a space if more attribute come after */
+			putc(i+1 < strlen(argv[1]) ? ' ' : '\n',stdout);
 		}
-
-		/* add a space if more attribute come after */
-		putc(i+1 < strlen(argv[1]) ? ' ' : '\n',stdout);
 	}
 
 	return 0;
