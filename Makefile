@@ -6,7 +6,7 @@ LD      := $(CC)
 CFLAGS  += -std=c99 -pedantic -Wall -Os
 LDFLAGS += -lxcb
 
-HDR = arg.h
+HDR = arg.h util.h
 SRC =           \
 	pfw.c   \
 	lsw.c   \
@@ -29,11 +29,11 @@ BIN = $(SRC:.c=)
 
 all: $(BIN)
 
-$(OBJ): $(HDR)
+$(OBJ): $(HDR) util.o
 
 .o:
 	@echo "LD $@"
-	@$(LD) $< -o $@ $(LDFLAGS)
+	@$(LD) $< -o $@ $(LDFLAGS) util.o
 
 .c.o:
 	@echo "CC $<"
@@ -50,4 +50,4 @@ uninstall:
 	done
 
 clean :
-	rm -f $(OBJ) $(BIN)
+	rm -f $(OBJ) $(BIN) util.o
