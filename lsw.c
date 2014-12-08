@@ -4,17 +4,15 @@
 #include <xcb/xcb.h>
 
 #include "arg.h"
+#include "util.h"
 
 char *argv0;
 static xcb_connection_t *conn;
 static xcb_screen_t *scrn;
 
 static void usage(void);
-static void xcbinit(void);
-static void cleanup(void);
-static int mapped(xcb_window_t);
-static int ignored(xcb_window_t);
-static int shouldlist(xcb_window_t, int);
+static int should_list(xcb_window_t, int);
+static void list_windows(xcb_window_t, int);
 
 enum {
 	LIST_HIDDEN = 1 << 0,
@@ -28,78 +26,20 @@ usage(void)
 	exit(1);
 }
 
-static void
-xcbinit(void)
-{
-	conn = xcb_connect(NULL, NULL);
-	if (xcb_connection_has_error(conn))
-		errx(1, "unable connect to the X server");
-
-	scrn = xcb_setup_roots_iterator(xcb_get_setup(conn)).data;
-
-	if (scrn == NULL)
-		errx(1, "unable to retrieve screen informations");
-}
-
-static void
-cleanup(void)
-{
-	if (conn != NULL)
-		xcb_disconnect(conn);
-}
-
 static int
-mapped(xcb_window_t w)
+should_list(xcb_window_t w, int mask)
 {
-	int ms;
-	xcb_get_window_attributes_cookie_t c;
-	xcb_get_window_attributes_reply_t  *r;
-
-	c = xcb_get_window_attributes(conn, w);
-	r = xcb_get_window_attributes_reply(conn, c, NULL);
-
-	if (r == NULL)
+	if (ignore(conn, w) && !(mask & LIST_IGNORE))
 		return 0;
 
-	ms = r->map_state;
-
-	free(r);
-	return ms == XCB_MAP_STATE_VIEWABLE;
-}
-
-static int
-ignored(xcb_window_t w)
-{
-	int or;
-	xcb_get_window_attributes_cookie_t c;
-	xcb_get_window_attributes_reply_t  *r;
-
-	c = xcb_get_window_attributes(conn, w);
-	r = xcb_get_window_attributes_reply(conn, c, NULL);
-
-	if (r == NULL)
-		return 0;
-
-	or = r->override_redirect;
-
-	free(r);
-	return or;
-}
-
-static int
-shouldlist(xcb_window_t w, int mask)
-{
-	if (ignored(w) && !(mask & LIST_IGNORE))
-		return 0;
-
-	if (!mapped(w) && !(mask & LIST_HIDDEN))
+	if (!mapped(conn, w) && !(mask & LIST_HIDDEN))
 		 return 0;
 
 	return 1;
 }
 
 static void
-listwindows(xcb_window_t w, int listmask)
+list_windows(xcb_window_t w, int listmask)
 {
 	int i;
 	xcb_window_t *wc;
@@ -116,7 +56,7 @@ listwindows(xcb_window_t w, int listmask)
 		errx(1, "0x%08x: unable to retrieve children", w);
 
 	for (i=0; i<r->children_len; i++) {
-		if (shouldlist(wc[i], listmask))
+		if (should_list(wc[i], listmask))
 			printf("0x%08x\n", wc[i]);
 	}
 
@@ -135,8 +75,8 @@ main(int argc, char **argv)
 		default : usage();
 	} ARGEND;
 
-	atexit(cleanup);
-	xcbinit();
+	init_xcb(&conn);
+	get_screen(conn, &scrn);
 
 	if (rootflag == 1) {
 		printf("0x%08x\n", scrn->root);
@@ -144,10 +84,12 @@ main(int argc, char **argv)
 	}
 
 	if (argc == 0)
-		listwindows(scrn->root, listmask);
+		list_windows(scrn->root, listmask);
 
 	while (*argv)
-		listwindows(strtoul(*argv++, NULL, 16), listmask);
+		list_windows(strtoul(*argv++, NULL, 16), listmask);
+
+	kill_xcb(&conn);
 
 	return 0;
 }
