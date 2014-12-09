@@ -18,31 +18,12 @@
 #include <stdlib.h>
 #include <err.h>
 
+#include "util.h"
+
 static xcb_connection_t *conn;
-static xcb_screen_t *scrn;
+static xcb_screen_t *scr;
 
-static void cleanup(void);
 static void resize(xcb_window_t, int, int);
-
-static void
-xcbinit(void)
-{
-	conn = xcb_connect(NULL, NULL);
-	if (xcb_connection_has_error(conn))
-		errx(1, "unable to connect to the X server");
-
-	scrn = xcb_setup_roots_iterator(xcb_get_setup(conn)).data;
-
-	if (scrn == NULL)
-		errx(1, "unable to retrieve screen informations");
-}
-
-static void
-cleanup(void)
-{
-	if (conn)
-		xcb_disconnect(conn);
-}
 
 static void
 resize(xcb_window_t w, int x, int y)
@@ -60,12 +41,12 @@ resize(xcb_window_t w, int x, int y)
 	if (r == NULL)
 		return;
 
-	if ((r->x + r->width + 2*r->border_width + x) > scrn->width_in_pixels)
-		x = scrn->width_in_pixels - (
+	if ((r->x + r->width + 2*r->border_width + x) > scr->width_in_pixels)
+		x = scr->width_in_pixels - (
 				r->x + r->width + (2*r->border_width));
 
-	if ((r->y + r->height + 2*r->border_width + y) > scrn->height_in_pixels)
-		y = scrn->height_in_pixels - (
+	if ((r->y + r->height + 2*r->border_width + y) > scr->height_in_pixels)
+		y = scr->height_in_pixels - (
 				r->y + r->height + (2*r->border_width));
 
 	val[0] = r->width  + x;
@@ -87,8 +68,8 @@ main(int argc, char **argv)
 	if (argc < 4)
 		errx(1, "usage: %s <x> <y> <wid> [wid..]", argv[0]);
 
-	atexit(cleanup);
-	xcbinit();
+	init_xcb(&conn);
+	get_screen(conn, &scr);
 
 	x = atoi(*(++argv));
 	y = atoi(*(++argv));
@@ -97,6 +78,8 @@ main(int argc, char **argv)
 		resize(strtoul(*argv++, NULL, 16), x, y);
 
 	xcb_flush(conn);
+
+	kill_xcb(&conn);
 
 	return 0;
 }
