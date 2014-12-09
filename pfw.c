@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <xcb/xcb.h>
 
-#include "util.c"
+#include "util.h"
 
 static xcb_connection_t *conn;
 
