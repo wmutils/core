@@ -18,13 +18,13 @@
 #include <stdlib.h>
 #include <err.h>
 
-static xcb_connection_t	*conn;
-static xcb_screen_t	*scr;
+#include "util.h"
 
-static void cleanup (void);
+static xcb_connection_t *conn;
+static xcb_screen_t *scr;
+
 static void move (xcb_window_t, int, int);
 static void center_pointer (xcb_window_t);
-
 
 static void
 center_pointer (xcb_window_t win) {
@@ -85,23 +85,14 @@ move (xcb_window_t win, int x, int y) {
 	free(geom);
 }
 
-static void
-cleanup (void) {
-	if (conn)
-		xcb_disconnect(conn);
-}
-
-
-int main (int argc, char **argv) {
+int
+main (int argc, char **argv) {
 	xcb_window_t win;
-
-	atexit(cleanup);
 
 	if (argc != 4)
 		errx(1, "usage: %s <x> <y> <win>", argv[0]);
 
-	if (xcb_connection_has_error(conn = xcb_connect(NULL, NULL)))
-		errx(1, "error connecting to X");
+	init_xcb(&conn);
 
 	scr = xcb_setup_roots_iterator(xcb_get_setup(conn)).data;
 	win = scr->root;
@@ -112,6 +103,8 @@ int main (int argc, char **argv) {
 
 	move(win, atoi(argv[1]), atoi(argv[2]));
 	xcb_flush(conn);
+
+	kill_xcb(&conn);
 
 	return 0;
 }
