@@ -20,10 +20,10 @@
 #include <err.h>
 
 #include "arg.h"
+#include "util.h"
 
 static xcb_connection_t          *conn;
 
-static void cleanup  (void);
 static void usage    (char *);
 static void stack    (xcb_window_t, uint32_t[1]);
 
@@ -32,13 +32,6 @@ usage (char *name)
 {
 	fprintf(stderr, "usage %s -rli <wid>\n", name);
 	exit(1);
-}
-
-static void
-cleanup (void)
-{
-	if (conn)
-		xcb_disconnect(conn);
 }
 
 static void
@@ -57,10 +50,7 @@ main (int argc, char **argv)
 	if (argc != 3)
 		usage(argv[0]);
 
-	atexit(cleanup);
-	if (xcb_connection_has_error(conn = xcb_connect(NULL, NULL)))
-		errx(1, "error connecting to X");
-
+	init_xcb(&conn);
 
 	win = strtoul(argv[2], NULL, 16);
 	if (!win)
@@ -76,6 +66,7 @@ main (int argc, char **argv)
 	stack(win, values);
 	xcb_flush(conn);
 
+	kill_xcb(&conn);
+
 	return 0;
 }
-
