@@ -20,19 +20,12 @@
 #include <err.h>
 
 #include "arg.h"
+#include "util.h"
 
 static xcb_connection_t *conn;
 
-static void cleanup    (void);
 static void usage      (char *name);
 static void setborder  (int, int, xcb_window_t);
-
-static void
-cleanup (void)
-{
-	if (conn)
-		xcb_disconnect(conn);
-}
 
 static void
 usage (char *name)
@@ -69,10 +62,8 @@ main (int argc, char **argv)
 {
 	char *argv0;
 	int color,bw;
-	atexit(cleanup);
 
-	if (xcb_connection_has_error(conn = xcb_connect(NULL, NULL)))
-		errx(1, "error connecting to X");
+	init_xcb(&conn);
 
 	color = bw = -1;
 
@@ -94,8 +85,9 @@ main (int argc, char **argv)
 	while (*argv)
 		setborder(bw, color, strtoul(*argv++, NULL, 16));
 
-
 	xcb_flush(conn);
+
+	kill_xcb(&conn);
 
 	return 0;
 }
