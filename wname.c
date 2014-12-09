@@ -3,17 +3,12 @@
 #include <xcb/xcb.h>
 #include <err.h>
 
+#include "util.h"
+
 static xcb_connection_t *conn;
 
 static void usage (char *);
-static void cleanup (void);
 static int  get_title (xcb_window_t);
-
-static void cleanup (void)
-{
-	if (conn)
-		xcb_disconnect(conn);
-}
 
 static void
 usage (char *name)
@@ -54,12 +49,12 @@ int main (int argc, char **argv)
 	if (argc < 2)
 		usage(argv[0]);
 
-	atexit(cleanup);
-	if (xcb_connection_has_error(conn = xcb_connect(NULL, NULL)))
-		errx(1, "error connecting to X");
+	init_xcb(&conn);
 
 	for (i=1; i < argc; i++)
 		r += get_title(strtoul(argv[i], NULL, 16));
+
+	kill_xcb(&conn);
 
 	return r;
 }
