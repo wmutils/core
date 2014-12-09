@@ -5,26 +5,11 @@
 #include <stdlib.h>
 #include <xcb/xcb.h>
 
+#include "util.c"
+
 static xcb_connection_t *conn;
 
-static void xcbinit(void);
-static void cleanup(void);
 static xcb_window_t focuswindow(void);
-
-static void
-xcbinit(void)
-{
-	conn = xcb_connect(NULL, NULL);
-	if (xcb_connection_has_error(conn))
-		errx(1, "xcb_connect");
-}
-
-static void
-cleanup(void)
-{
-	if (conn != NULL)
-		xcb_disconnect(conn);
-}
 
 static xcb_window_t
 focuswindow(void)
@@ -46,9 +31,10 @@ focuswindow(void)
 int
 main(int argc, char **argv)
 {
-	atexit(cleanup);
-	xcbinit();
+	init_xcb(&conn);
 
 	printf("0x%08x\n", focuswindow());
+
+	kill_xcb(&conn);
 	return 0;
 }
