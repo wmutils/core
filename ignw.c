@@ -4,13 +4,12 @@
 #include <xcb/xcb.h>
 
 #include "arg.h"
+#include "util.h"
 
 char *argv0;
 static xcb_connection_t *conn;
 
 static void usage(void);
-static void xcbinit(void);
-static void cleanup(void);
 static void setoverride(xcb_window_t, int);
 
 static void
@@ -18,21 +17,6 @@ usage(void)
 {
 	fprintf(stderr, "usage: %s [-sr] <wid> [wid..]\n", argv0);
 	exit(1);
-}
-
-static void
-xcbinit(void)
-{
-	conn = xcb_connect(NULL, NULL);
-	if (xcb_connection_has_error(conn))
-		errx(1, "unable connect to the X server");
-}
-
-static void
-cleanup(void)
-{
-	if (conn != NULL)
-		xcb_disconnect(conn);
 }
 
 static void
@@ -54,13 +38,15 @@ main(int argc, char **argv)
 		case 'r': setflag = 0; break;
 		default: usage();
 	} ARGEND;
-	atexit(cleanup);
-	xcbinit();
+
+	init_xcb(&conn);
 
 	while (*argv)
 		setoverride(strtoul(*argv++, NULL, 16), setflag);
 
 	xcb_flush(conn);
+
+	kill_xcb(&conn);
 
 	return 0;
 }
