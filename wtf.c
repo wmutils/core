@@ -19,18 +19,12 @@
 #include <stdio.h>
 #include <err.h>
 
+#include "util.h"
+
 static xcb_connection_t   *conn;
 
-static void cleanup        (void);
 static void usage          (char *name);
 static void center_pointer (xcb_window_t);
-
-static void
-cleanup (void)
-{
-	if (conn)
-		xcb_disconnect(conn);
-}
 
 static void
 usage (char *name)
@@ -61,13 +55,11 @@ main (int argc, char **argv)
 {
 	xcb_window_t win;
 
-	atexit(cleanup);
 
 	if (argc != 2)
 		usage(argv[0]);
 
-	if (xcb_connection_has_error(conn = xcb_connect(NULL, NULL)))
-		errx(1, "error connecting to X");
+	init_xcb(&conn);
 
 	win = strtoul(argv[1], NULL, 16);
 	if (!win)
@@ -76,5 +68,6 @@ main (int argc, char **argv)
 	center_pointer(win);
 	xcb_flush(conn);
 
+	kill_xcb(&conn);
 	return 0;
 }
