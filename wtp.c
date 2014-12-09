@@ -19,24 +19,19 @@
 #include <stdio.h>
 #include <err.h>
 
+#include "util.h"
+
 static xcb_connection_t *conn;
 
-static void cleanup    (void);
 static void usage      (char *name);
 static void teleport   (xcb_window_t, int, int, int, int);
 static  int get_border (xcb_window_t win);
 
-static void usage(char *name)
+static void
+usage(char *name)
 {
 	fprintf(stderr, "usage: %s <x> <y> <w> <h> <wid>\n", name);
 	exit(1);
-}
-
-static void
-cleanup (void)
-{
-	if (conn)
-		xcb_disconnect(conn);
 }
 
 static int
@@ -83,13 +78,10 @@ main (int argc, char **argv)
 {
 	xcb_window_t win;
 
-	atexit(cleanup);
-
 	if (argc != 6)
 		usage(argv[0]);
 
-	if (xcb_connection_has_error(conn = xcb_connect(NULL, NULL)))
-		errx(1, "error connecting to X");
+	init_xcb(&conn);
 
 	win = strtoul(argv[5], NULL, 16);
 	if (!win)
@@ -98,6 +90,8 @@ main (int argc, char **argv)
 	teleport(win, atoi(argv[1]), atoi(argv[2]),
 			atoi(argv[3]), atoi(argv[4]));
 	xcb_flush(conn);
+
+	kill_xcb(&conn);
 
 	return 0;
 }
