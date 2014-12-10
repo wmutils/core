@@ -34,41 +34,19 @@ usage(char *name)
 	exit(1);
 }
 
-static int
-get_border (xcb_window_t win)
-{
-	unsigned int bw = 0;
-	xcb_get_geometry_reply_t *geom;
-	geom = xcb_get_geometry_reply(conn, xcb_get_geometry(conn, win), NULL);
-
-	if (!geom)
-		errx(1, "failed to get geometry");
-
-	bw = geom->border_width;
-
-	free(geom);
-	return bw;
-}
-
 static void
 teleport (xcb_window_t win, int x, int y, int w, int h)
 {
-	int bw = 0;
 	uint32_t values[4];
 	uint32_t mask =   XCB_CONFIG_WINDOW_X
                         | XCB_CONFIG_WINDOW_Y
                         | XCB_CONFIG_WINDOW_WIDTH
 	                | XCB_CONFIG_WINDOW_HEIGHT;
-	
-	bw = get_border(win);
-
-	if (bw < 0)
-		return;
 
 	values[0] = x;
 	values[1] = y;
-	values[2] = w - (2*bw);
-	values[3] = h - (2*bw);
+	values[2] = w;
+	values[3] = h;
 
 	xcb_configure_window(conn, win, mask, values);
 }
