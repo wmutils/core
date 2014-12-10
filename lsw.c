@@ -16,26 +16,29 @@ static void list_windows(xcb_window_t, int);
 
 enum {
 	LIST_HIDDEN = 1 << 0,
-	LIST_IGNORE = 1 << 1
+	LIST_IGNORE = 1 << 1,
+	LIST_ALL    = 1 << 2
 };
 
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-hiar] [wid...]\n", argv0);
+	fprintf(stderr, "usage: %s [-houra] [wid...]\n", argv0);
 	exit(1);
 }
 
 static int
 should_list(xcb_window_t w, int mask)
 {
-	if (ignore(conn, w) && !(mask & LIST_IGNORE))
-		return 0;
+	if ((mask & LIST_ALL)
+		|| (!mapped(conn, w) && mask & LIST_HIDDEN)
+		|| (ignore(conn, w) && mask & LIST_IGNORE)
+		|| (mapped(conn, w)
+			&& !ignore(conn, w)
+			&& mask == 0))
+		return 1;
 
-	if (!mapped(conn, w) && !(mask & LIST_HIDDEN))
-		 return 0;
-
-	return 1;
+	return 0;
 }
 
 static void
@@ -69,8 +72,9 @@ main(int argc, char **argv)
 	int listmask = 0, rootflag = 0;
 
 	ARGBEGIN {
-		case 'a': listmask |= LIST_HIDDEN; break;
-		case 'i': listmask |= LIST_IGNORE; break;
+		case 'a': listmask |= LIST_ALL; break;
+		case 'u': listmask |= LIST_HIDDEN; break;
+		case 'o': listmask |= LIST_IGNORE; break;
 		case 'r': rootflag = 1; break;
 		default : usage();
 	} ARGEND;
