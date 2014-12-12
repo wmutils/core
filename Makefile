@@ -27,7 +27,7 @@ BIN = $(SRC:.c=)
 
 .POSIX:
 
-all: $(BIN)
+all: $(BIN) manpages
 
 $(OBJ): $(HDR) util.o
 
@@ -39,15 +39,20 @@ $(OBJ): $(HDR) util.o
 	@echo "CC $<"
 	@$(CC) -c $< -o $@ $(CFLAGS)
 
+manpages:
+	make -C man
+
 install: $(BIN)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin/
 	cp -f $(BIN) $(DESTDIR)$(PREFIX)/bin/
+	make -C man install
 
 uninstall:
 	@echo "uninstalling $(BIN)"
 	for util in $(BIN); do \
 		rm -f $(DESTDIR)$(PREFIX)/bin/$$util; \
 	done
+	make -C man uninstall
 
 clean :
 	rm -f $(OBJ) $(BIN) util.o
