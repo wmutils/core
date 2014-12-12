@@ -57,7 +57,8 @@ getattribute(xcb_window_t w, int attr)
 int
 main(int argc, char **argv)
 {
-	size_t i,c;
+	int c;
+	size_t i;
 	xcb_window_t w = 0;
 
 	if (argc < 2 || (strncmp(argv[1], "-h", 2) == 0)) {
