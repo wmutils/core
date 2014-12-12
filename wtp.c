@@ -25,7 +25,6 @@ static xcb_connection_t *conn;
 
 static void usage      (char *name);
 static void teleport   (xcb_window_t, int, int, int, int);
-static  int get_border (xcb_window_t win);
 
 static void
 usage(char *name)
