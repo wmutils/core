@@ -1,0 +1,36 @@
+.TH CHWB 1 "December 2014" wmutils
+
+.SH NAME
+chwb - change window borders
+
+.SH SYNOPSIS
+.B chwb
+.RB [ -sc
+.IR arg ]\  <wid>\  [ wid.. ]
+
+.SH DESCRIPTION
+.B chwb
+change the border size and color of the given window IDs
+.TP
+.BI -s\  <arg>
+set border width of 
+.IR <wid>\  to\  <arg>
+.TP
+.BI -c\  <arg>
+set border color of 
+.IR <wid>\  to\  <arg>
+(see COLOR SPECIFICATION below)
+
+.SH COLOR SPECIFICATION
+Colors should be passed in hexadecimal value, as specified by
+.B strtoul(3)
+(for example, "0x8064cc").
+
+.SH ENVIRONMENT
+.B chwb
+follows the variable
+.I DISPLAY
+to set X.org display to act on.
+
+.SH SEE ALSO
+.BR strtoul (3)

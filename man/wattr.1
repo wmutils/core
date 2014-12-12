@@ -1,0 +1,60 @@
+.TH WATTR 1 "December 2014" wmutils
+
+.SH NAME
+wattr - get windows attributes
+
+.SH SYNOPSIS
+.B wattr
+.RI [ bmwhxy ]\  <wid>
+
+.SH DESCRIPTION
+.B wattr
+will print the argument queried about the window to stdout, in the order they
+are requested, separated by a space.
+
+When run without querying an attribute,
+.B wattr
+will return 0 if the window exists, 1 otherwise.
+
+Attributes can be chained, they will be printed in the order specified,
+separated by spaces.
+
+
+.TP
+.B b
+print <wid> borderwidth
+.TP
+.B x
+print <wid> X offset
+.TP
+.B y
+print <wid> Y offset
+.TP
+.B w
+print <wid> width
+.TP
+.B h
+print <wid> height
+.TP
+.B m
+returns 0 if window is mapped on screen, 1 otherwise
+
+.SH EXAMPLE
+    > wattr m 0x01000006 && echo ismapped
+    ismapped
+
+    > wattr whxy 0x01000006
+    484 244 756 166
+
+    > wattr xyhw 0x01000006
+    756 166 244 484
+
+    > wattr 0x00000000
+    > echo $?
+    1
+
+.SH ENVIRONMENT
+.B wattr
+follows the variable
+.I DISPLAY
+to set X.org display to act on.

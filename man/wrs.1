@@ -1,0 +1,29 @@
+.TH WRS 1 "December 2014" wmutils
+
+.SH NAME
+wrs - resize windows (relatively)
+
+.SH SYNOPSIS
+.B wrs
+.I <x> <y> <wid>
+.RI [ wid.. ]
+
+.SH DESCRIPTION
+will resize a window to another position using relative coordinates
+
+.TP
+.I <x>
+how much pixel
+.I <wid>
+should be the X axis
+.TP
+.I <y>
+how much pixel
+.I <wid>
+should be the Y axis
+
+.SH ENVIRONMENT
+.B wrs
+follows the variable
+.I DISPLAY
+to set X.org display to act on.

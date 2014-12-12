@@ -1,0 +1,32 @@
+.TH MAPW 1 "December 2014" wmutils
+
+.SH NAME
+mapw - map or unmap window
+
+.SH SYNOPSIS
+.BR mapw\  [ -mut
+.IR <wid>\  [ wid.. ]]
+
+.SH DESCRIPTION
+.B mapw
+will either map or unmap a window from the screen, which will toggle the
+visibility state of a window.
+
+.TP
+.B -m
+map (show) windows
+.TP
+.B -u
+unmap (hide) windows
+.TP
+.B -t
+toggle windows visibility
+
+.SH ENVIRONMENT
+.B mapw
+follows the variable
+.I DISPLAY
+to set X.org display to act on.
+
+.SH SEE ALSO
+.BR lsw (1)

@@ -1,0 +1,34 @@
+.TH chwso 1 "December 2014" wmutils
+
+.SH NAME
+chwso - change window stacking order
+
+.SH SYNOPSIS
+.B chwso
+.BI -rli\  <wid>
+
+.SH DESCRIPTION
+.B chwso
+will change the place of a window in the server's window stack, putting it
+either in the foreground or the background
+.TP
+.B -r
+put
+.I <wid>
+on top of the window stack
+.TP
+.B -l
+put
+.I <wid>
+at the bottom of the window stack
+.TP
+.B -i
+invert
+<wid>
+position in the window stack
+
+.SH ENVIRONMENT
+.B chwso
+follows the variable
+.I DISPLAY
+to set X.org display to act on.

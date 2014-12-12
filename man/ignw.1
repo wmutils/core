@@ -1,0 +1,35 @@
+.TH IGNW 1 "December 2014" wmutils
+
+.SH NAME
+ignw - ignore window
+
+.SH SYNOPSIS
+.B ignw -sr
+.IR <wid>\  [ wid.. ]
+
+.SH DESCRIPTION
+.B ignw
+will change the value of the
+.I override_redirect
+attribute of a window to either 0 or 1. This will result in the window manager
+ignoring the window or not
+
+.TP
+.B -s
+set override_redirect value to 1 for
+.I <wid>
+(ignore window)
+.TP
+.B -r
+set override_redirect value to 0 for
+.I <wid>
+(unignore window)
+
+.SH ENVIRONMENT
+.B ignw
+follows the variable
+.I DISPLAY
+to set X.org display to act on.
+
+.SH SEE ALSO
+.BR lsw (1),\  wattr (1),\  xcb_get_window_attributes (3)

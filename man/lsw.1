@@ -1,0 +1,47 @@
+.TH LSW 1 "December 2014" wmutils
+
+.SH NAME
+lsw - list child windows
+
+.SH SYNOPSIS
+.B lsw
+.RB [ -oura ]
+.RI [ wid.. ]
+
+.SH DESCRIPTION
+.B lsw
+will list all the children of the window passed as arguments. In case no
+argument is given, 
+.B lsw
+will list the children of the root window.
+
+Without any flag,
+.B lsw
+will only list the windows that a mapped (visible) and with the
+.I override_redirect
+value set to 0 (non ignored)
+
+.TP
+.B -o
+list windows having the
+.I override_redirect
+attribute set to 1
+.TP
+.B -u
+list unmapped (invisible) windows
+.TP
+.B -r
+print root window id
+.TP
+.B -a
+list all windows
+.TP
+
+.SH ENVIRONMENT
+.B lsw
+follows the variable
+.I DISPLAY
+to set X.org display to act on.
+
+.SH SEE ALSO
+.BR mapw (1),\  ignw (1),\  xargs (1)
