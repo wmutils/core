@@ -1,19 +1,18 @@
-.TH WNAME 1 "December 2014" wmutils
-
-.SH NAME
-wname - print window name
-
-.SH SYNOPSIS
-.B wname
-.IR <wid>\  [ wid.. ]
-
-.SH DESCRIPTION
-.B wname
-will print the name of the windows given as arguments, printing one name per
-line
-
-.SH ENVIRONMENT
-.B wname
-follows the variable
-.I DISPLAY
-to set X.org display to act on.
+.Dd December 13, 2014
+.Dt WNAME 1
+.Os wmutils
+.Sh NAME
+.Nm wname
+.Nd print window name
+.Sh SYNOPSIS
+.Nm wname
+.Ar wid Op ...
+.Sh DESCRIPTION
+.Nm
+prints the name of the window IDs given as arguments,
+one name per line.
+.Sh ENVIRONMENT
+.Nm
+acts on the X display specified by the
+.Ev DISPLAY
+variable.

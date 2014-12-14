@@ -1,32 +1,32 @@
-.TH MAPW 1 "December 2014" wmutils
-
-.SH NAME
-mapw - map or unmap window
-
-.SH SYNOPSIS
-.BR mapw\  [ -mut
-.IR <wid>\  [ wid.. ]]
-
-.SH DESCRIPTION
-.B mapw
-will either map or unmap a window from the screen, which will toggle the
-visibility state of a window.
-
-.TP
-.B -m
-map (show) windows
-.TP
-.B -u
-unmap (hide) windows
-.TP
-.B -t
-toggle windows visibility
-
-.SH ENVIRONMENT
-.B mapw
-follows the variable
-.I DISPLAY
-to set X.org display to act on.
-
-.SH SEE ALSO
-.BR lsw (1)
+.Dd December 13, 2014
+.Dt MAPW 1
+.Os wmutils
+.Sh NAME
+.Nm mapw
+.Nd map or unmap window
+.Sh SYNOPSIS
+.Nm mapw
+.Op Fl mtu
+.Ar wid Op ...
+.Sh DESCRIPTION
+.Nm
+will either map or unmap a window from the screen,
+thus modifying the visibility state of the window.
+.Bl -tag -width Ds
+.It Fl m
+Map (show)
+.Ar wid .
+.It Fl t
+Toggle
+.Ar wid Ns \(cqs visibility.
+.It Fl u
+Unmap (hide)
+.Ar wid .
+.El
+.Sh ENVIRONMENT
+.Nm
+acts on the X display specified by the
+.Ev DISPLAY
+variable.
+.Sh SEE ALSO
+.Xr lsw 1

@@ -1,29 +1,32 @@
-.TH WMV 1 "December 2014" wmutils
-
-.SH NAME
-wmv - move windows (relatively)
-
-.SH SYNOPSIS
-.B wmv
-.I <x> <y> <wid>
-
-.SH DESCRIPTION
-.B wmv
-will move a window to another position using relative coordinates
-
-.TP
-.I <x>
-much pixel
-.I <wid>
-should move on the X axis
-.TP
-.I <y>
-much pixel
-.I <wid>
-should move on the Y axis
-
-.SH ENVIRONMENT
-.B wmv
-follows the variable
-.I DISPLAY
-to set X.org display to act on.
+'\" e
+.Dd December 13, 2014
+.Dt WMV 1
+.Os wmutils
+.Sh NAME
+.Nm wmv
+.Nd move windows (relatively)
+.Sh SYNOPSIS
+.Nm wmv
+.Ar x y wid
+.Sh DESCRIPTION
+.Nm wmv
+repositions
+.Ar wid
+relatively,
+.Ar x
+pixels in the
+.EQ
+x
+.EN
+direction and
+.Ar y
+pixels in the
+.EQ
+y
+.EN
+direction.
+.Sh ENVIRONMENT
+.Nm
+acts on the X display specified by the
+.Ev DISPLAY
+variable.
