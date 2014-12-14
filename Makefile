@@ -1,10 +1,4 @@
-PREFIX:=/usr
-MANPREFIX:=$(PREFIX)/share/man
-
-CC      := cc
-LD      := $(CC)
-CFLAGS  += -std=c99 -pedantic -Wall -Os
-LDFLAGS += -lxcb
+include config.mk
 
 HDR = arg.h util.h
 SRC =           \
@@ -24,10 +18,17 @@ SRC =           \
 
 OBJ = $(SRC:.c=.o)
 BIN = $(SRC:.c=)
+MAN = $(SRC:.c=.1.gz)
 
 .POSIX:
+.SUFFIXES: .1 .1.gz
 
-all: $(BIN) manpages
+all: binutils manpages
+
+binutils: $(BIN)
+
+manpages:
+	cd man; $(MAKE) $(MFLAGS)
 
 $(OBJ): $(HDR) util.o
 
@@ -39,20 +40,18 @@ $(OBJ): $(HDR) util.o
 	@echo "CC $<"
 	@$(CC) -c $< -o $@ $(CFLAGS)
 
-manpages:
-	make -C man
-
 install: $(BIN)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin/
 	cp -f $(BIN) $(DESTDIR)$(PREFIX)/bin/
-	make -C man install
+	cd man; $(MAKE) $(MFLAGS) install
 
 uninstall:
-	@echo "uninstalling $(BIN)"
-	for util in $(BIN); do \
+	@echo "uninstalling binaries"
+	@for util in $(BIN); do \
 		rm -f $(DESTDIR)$(PREFIX)/bin/$$util; \
 	done
-	make -C man uninstall
+	cd man; $(MAKE) $(MFLAGS) uninstall
 
 clean :
 	rm -f $(OBJ) $(BIN) util.o
+	cd man; $(MAKE) $(MFLAGS) clean

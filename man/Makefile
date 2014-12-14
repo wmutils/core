@@ -1,7 +1,4 @@
-PREFIX:=/usr
-MANPREFIX:=$(PREFIX)/share/man
-
-GZ := gzip
+include ../config.mk
 
 SRC =           \
 	pfw.1   \
@@ -26,7 +23,7 @@ MAN = $(SRC:.1=.1.gz)
 all: $(MAN)
 
 .1.1.gz:
-	@echo "GZ $@"
+	@echo "GZ $<"
 	@$(GZ) -c $< > $@
 
 install: $(MAN)
@@ -34,9 +31,9 @@ install: $(MAN)
 	cp -f $(MAN) $(DESTDIR)$(MANPREFIX)/man1/
 
 uninstall:
-	@echo "removing manpages"
-	for util in $(MAN); do \
-		rm -f $(DESTDIR)$(PREFIX)/man1/$$util; \
+	@echo "uninstalling manpages"
+	@for page in $(MAN); do \
+		rm -f $(DESTDIR)$(MANPREFIX)/man1/$$page; \
 	done
 
 clean :
