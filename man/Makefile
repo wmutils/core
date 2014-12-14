@@ -30,8 +30,8 @@ all: $(MAN)
 	@$(GZ) -c $< > $@
 
 install: $(MAN)
-	mkdir -p $(DESTDIR)$(MANPREFIX)/bin/
-	cp -f $(BIN) $(DESTDIR)$(MANPREFIX)/man1/
+	mkdir -p $(DESTDIR)$(MANPREFIX)/man1/
+	cp -f $(MAN) $(DESTDIR)$(MANPREFIX)/man1/
 
 uninstall:
 	@echo "removing manpages"
