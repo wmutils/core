@@ -1,47 +1,43 @@
-.TH LSW 1 "December 2014" wmutils
-
-.SH NAME
-lsw - list child windows
-
-.SH SYNOPSIS
-.B lsw
-.RB [ -oura ]
-.RI [ wid.. ]
-
-.SH DESCRIPTION
-.B lsw
-will list all the children of the window passed as arguments. In case no
-argument is given, 
-.B lsw
-will list the children of the root window.
-
-Without any flag,
-.B lsw
-will only list the windows that a mapped (visible) and with the
-.I override_redirect
-value set to 0 (non ignored)
-
-.TP
-.B -o
-list windows having the
-.I override_redirect
-attribute set to 1
-.TP
-.B -u
-list unmapped (invisible) windows
-.TP
-.B -r
-print root window id
-.TP
-.B -a
-list all windows
-.TP
-
-.SH ENVIRONMENT
-.B lsw
-follows the variable
-.I DISPLAY
-to set X.org display to act on.
-
-.SH SEE ALSO
-.BR mapw (1),\  ignw (1),\  xargs (1)
+.Dd December 13, 2014
+.Dt LSW 1
+.Os wmutils
+.Sh NAME
+.Nm lsw
+.Nd list child windows
+.Sh SYNOPSIS
+.Nm lsw
+.Op Fl arou
+.Op Ar wid ...
+.Sh DESCRIPTION
+.Nm
+lists child windows of the given window.
+If no windows are given,
+.Nm
+lists the children of the root window.
+.Pp
+By default,
+.Nm
+lists only windows that are mapped (visible) and with the
+.Em override_redirect
+value set to 0 (i.e., unignored).
+.Bl -tag -width Ds
+.It Fl a
+List all windows.
+.It Fl r
+Print the ID of the root window.
+.It Fl o
+List windows whose
+.Em override_redirect
+attribute is set to 1.
+.It Fl u
+List unmapped (invisible) windows.
+.El
+.Sh ENVIRONMENT
+.Nm
+acts on the X display specified by the
+.Ev DISPLAY
+variable.
+.Sh SEE ALSO
+.Xr ignw 1 ,
+.Xr mapw 1 ,
+.Xr xargs 1

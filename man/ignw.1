@@ -1,35 +1,37 @@
-.TH IGNW 1 "December 2014" wmutils
-
-.SH NAME
-ignw - ignore window
-
-.SH SYNOPSIS
-.B ignw -sr
-.IR <wid>\  [ wid.. ]
-
-.SH DESCRIPTION
-.B ignw
-will change the value of the
-.I override_redirect
-attribute of a window to either 0 or 1. This will result in the window manager
-ignoring the window or not
-
-.TP
-.B -s
-set override_redirect value to 1 for
-.I <wid>
-(ignore window)
-.TP
-.B -r
-set override_redirect value to 0 for
-.I <wid>
-(unignore window)
-
-.SH ENVIRONMENT
-.B ignw
-follows the variable
-.I DISPLAY
-to set X.org display to act on.
-
-.SH SEE ALSO
-.BR lsw (1),\  wattr (1),\  xcb_get_window_attributes (3)
+.Dd December 13, 2014
+.Dt IGNW 1
+.Os wmutils
+.Sh NAME
+.Nm ignw
+.Nd ignore window
+.Sh SYNOPSIS
+.Nm ignw
+.Fl rs
+.Ar wid Op ...
+.Sh DESCRIPTION
+.Nm
+changes the value of the
+.Em override_redirect
+attribute of a window to either 0 or 1.
+This affects whether the window manager ignores the window.
+.Bl -tag -width Ds
+.It Fl r
+Reset
+.Ar wid Ns \(cqs
+.Em override_redirect
+value to 0, unignoring the window.
+.It Fl s
+Set
+.Ar wid Ns \(cqs
+.Em override_redirect
+value to 1, ignoring the window.
+.El
+.Sh ENVIRONMENT
+.Nm
+acts on the X display specified by the
+.Ev DISPLAY
+variable.
+.Sh SEE ALSO
+.Xr lsw 1 ,
+.Xr wattr 1 ,
+.Xr xcb_get_window_attributes 3
