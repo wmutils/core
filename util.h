@@ -5,6 +5,7 @@ void init_xcb(xcb_connection_t **);
 void kill_xcb(xcb_connection_t **);
 
 void get_screen(xcb_connection_t *, xcb_screen_t **);
+void get_windows(xcb_connection_t *, xcb_window_t, xcb_window_t **);
 
 int exists(xcb_connection_t *, xcb_window_t);
 int mapped(xcb_connection_t *, xcb_window_t);

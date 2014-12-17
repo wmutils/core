@@ -79,3 +79,17 @@ ignore(xcb_connection_t *con, xcb_window_t w)
 	free(r);
 	return or;
 }
+
+void
+get_windows(xcb_connection_t *con, xcb_window_t w, xcb_window_t **l)
+{
+	xcb_query_tree_cookie_t c;
+	xcb_query_tree_reply_t *r;
+
+	c = xcb_query_tree(con, w);
+	r = xcb_query_tree_reply(con, c, NULL);
+	if (r == NULL)
+		errx(1, "0x%08x: no such window", w);
+
+	*l = xcb_query_tree_children(r);
+}
