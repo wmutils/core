@@ -44,26 +44,18 @@ should_list(xcb_window_t w, int mask)
 static void
 list_windows(xcb_window_t w, int listmask)
 {
-	int i;
+	int i, wn;
 	xcb_window_t *wc;
-	xcb_query_tree_cookie_t c;
-	xcb_query_tree_reply_t *r;
 
-	c = xcb_query_tree(conn, w);
-	r = xcb_query_tree_reply(conn, c, NULL);
-	if (r == NULL)
-		errx(1, "0x%08x: no such window", w);
+	wn = get_windows(conn, w, &wc);
 
-	wc = xcb_query_tree_children(r);
 	if (wc == NULL)
 		errx(1, "0x%08x: unable to retrieve children", w);
 
-	for (i=0; i<r->children_len; i++) {
+	for (i=0; i<wn; i++) {
 		if (should_list(wc[i], listmask))
 			printf("0x%08x\n", wc[i]);
 	}
-
-	free(r);
 }
 
 int
