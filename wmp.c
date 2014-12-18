@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <err.h>
 
+#include "arg.h"
 #include "util.h"
 
 enum {
@@ -21,7 +22,7 @@ static void warp_cursor (int, int, int);
 static void
 usage (char *name)
 {
-	fprintf(stderr, "For more details see %s(1)\n", name);
+	fprintf(stderr, "usage: %s -ar <x> <y>\n", name);
 	exit(1);
 }
 
@@ -35,22 +36,24 @@ warp_cursor (int x, int y, int mode)
 int
 main (int argc, char **argv)
 {
+	char *argv0;
 	int mode = ABSOLUTE;
 
-	if (argc != 4)
-		usage(argv[0]);
-
-	init_xcb(&conn);
-	get_screen(conn, &scr);
-
-	switch (argv[1][0]) {
+	ARGBEGIN {
 		case 'a': mode = ABSOLUTE;
 			  break;
 		case 'r': mode = RELATIVE;
 			  break;
-	}
+		default : usage(argv0);
+	} ARGEND;
 
-	warp_cursor(atoi(argv[2]), atoi(argv[3]), mode);
+	if (argc != 2)
+		usage(argv0);
+
+	init_xcb(&conn);
+	get_screen(conn, &scr);
+
+	warp_cursor(atoi(argv[0]), atoi(argv[1]), mode);
 	
 	xcb_flush(conn);
 
