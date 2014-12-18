@@ -13,7 +13,8 @@ SRC =           \
 	wrs.1   \
 	chwb.1  \
 	ignw.1  \
-	wname.1
+	wname.1 \
+	wmp.1
 
 MAN = $(SRC:.1=.1.gz)
 
