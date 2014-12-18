@@ -1,5 +1,6 @@
 #include <err.h>
 #include <stdlib.h>
+#include <string.h>
 #include <xcb/xcb.h>
 
 #include "util.h"
@@ -83,7 +84,7 @@ ignore(xcb_connection_t *con, xcb_window_t w)
 int
 get_windows(xcb_connection_t *con, xcb_window_t w, xcb_window_t **l)
 {
-	int childnum = 0;
+	uint32_t childnum = 0;
 	xcb_query_tree_cookie_t c;
 	xcb_query_tree_reply_t *r;
 
@@ -92,10 +93,12 @@ get_windows(xcb_connection_t *con, xcb_window_t w, xcb_window_t **l)
 	if (r == NULL)
 		errx(1, "0x%08x: no such window", w);
 
-	*l = xcb_query_tree_children(r);
+	*l = malloc(sizeof(xcb_window_t) * r->children_len);
+	memcpy(*l, xcb_query_tree_children(r),
+			sizeof(xcb_window_t) * r->children_len);
 
 	childnum = r->children_len;
-	free(r);
 
+	free(r);
 	return childnum;
 }
