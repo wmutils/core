@@ -1,86 +1,65 @@
-
 wmutils' core
 =============
 
 wmutils' core is a set of tools for X windows manipulation. Each tool only has
-one purpose. We follow the UNIX philosophy: Do one thing and do it well.
+one purpose, to make it as flexible and reliable as possible.
 
-why?
-----
+Here's a quick example of what can be achieved with wmutils, this screen will
+put the currently focused window in the middle of the screen:
 
-There are many window managers out there, each of them having their own strengths and
-weaknesses. Instead of writing another WM that would suit our exact needs, we
-decided to provide tools that everyone could use to match their exact needs in regards
-to window management.
+    ```sh
+    #!/bin/sh
 
-how?
-----
+    # get current window id, width and height
+    WID=$(pfw)
+    WW=$(wattr w $WID)
+    WH=$(wattr h $WID)
 
-wmutils are written using the XCB library. Each source file provides a tool which
-is part of the core. You can then use these tools either from the command line,
-or wrap them in scripts and use keybind programs (like skhxd(1) or xbindkeys(1))
-to spawn those scripts. Possibilities are endless.
+    # get screen width and height
+    ROOT=$(lsw -r)
+    SW=$(wattr w $ROOT)
+    SH=$(wattr h $ROOT)
 
-what?
------
+    # move the current window to the center of the screen
+    wtp $(((SW - WW)/2)) $(((SH - WH)/2)) $WW $WH $WID
+
+utilities
+---------
 
 Here are the tools. This project is quite young, new tools can arrive
 without being added to this list, so take it with a grain of salt.
 
 * chwb  - change window's border
-* chwso - change window stack order
-* ignw  - mark window as ignored
+* chwso - change window's stacking order
+* ignw  - ignore/unignore window
 * killw - kill windows
 * lsw   - list windows
 * mapw  - map/unmap windows
 * pfw   - print focused window
-* wattr - get a window's attributes
-* wmv   - move windows
-* wrs   - resize windows
-* wtf   - focus windows
-* wtp   - teleport window
+* wattr - show window's attributes
+* wmp   - move the mouse pointer
+* wmv   - move a window
+* wname - get a window's name
+* wrs   - resize a window
+* wtf   - focus a window
+* wtp   - teleport a window
 
-examples
---------
+All these tools come with a manpage ! read them for further informations.
 
-    # move the current window by 40 pixels to the right
-    $ wmv 50 0 $(pfw)
+dependencies
+------------
 
-    # hide all windows
-    lsw | xargs mapw -u
-
-    # kill all hidden windows
-    (lsw;lsw -a) | sort | uniq -u | xargs killw
-
-    # focus lowest window in the stacking
-    next=$(lsw | grep -v $(pfw) | sed 1q)
-    test -n "$next" && {
-        wtf $next
-        chwso -r $next
-    }
-
-    # put current window in the top-left corner
-    wtp 0 0 $(wattr wh `pfw`) $(pfw)
-
-    # focus next window and set it as active
-    next=$(lsw|grep -v $pfw)|sed 1q)
-    lsw | xargs chwb -s 4 -c 0
-    chwb -s 4 -c 0xff0000 $next
-    wtf $next
-
-Just let your imagination flow through you...
+wmutils only relies on the XCB library.
 
 build & install
 ---------------
 
-You will need the xcb library to build these tools. Check your distribution's
-packages to find how to install it.
+System-wide installation (default PREFIX is `/usr`):
 
-    # build a single tool
-    make <tool>
+    $ make
+    # make install
 
-    # build them all
-    make all
+Fakeroot installation:
 
-    # install them
-    make install
+    $ make
+    $ make DESTDIR=$PWD/newroot install
