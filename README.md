@@ -4,10 +4,9 @@ wmutils' core
 wmutils' core is a set of tools for X windows manipulation. Each tool only has
 one purpose, to make it as flexible and reliable as possible.
 
-Here's a quick example of what can be achieved with wmutils, this screen will
-put the currently focused window in the middle of the screen:
+Here's a quick example. This snippet will put the currently focused window in
+the middle of the screen:
 
-    ```sh
     #!/bin/sh
 
     # get current window id, width and height
@@ -22,6 +21,9 @@ put the currently focused window in the middle of the screen:
 
     # move the current window to the center of the screen
     wtp $(((SW - WW)/2)) $(((SH - WH)/2)) $WW $WH $WID
+
+You also might want to check [sxhkd](https://github.com/baskerville/sxhkd), a
+daemon which allow binding applications to hot keys.
 
 utilities
 ---------
