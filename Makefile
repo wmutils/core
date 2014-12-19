@@ -35,7 +35,7 @@ $(OBJ): $(HDR) util.o
 
 .o:
 	@echo "LD $@"
-	@$(LD) $< -o $@ $(LDFLAGS) util.o
+	@$(LD) $< util.o -o $@ $(LDFLAGS)
 
 .c.o:
 	@echo "CC $<"
