@@ -12,7 +12,7 @@ static void usage (const char *);
 static void
 usage (const char *name)
 {
-	fprintf(stderr, "usage: %s <wid> [wid...]\n");
+	fprintf(stderr, "usage: %s <wid> [wid...]\n", name);
 	exit(1);
 }
 
