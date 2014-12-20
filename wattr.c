@@ -57,7 +57,8 @@ getattribute(xcb_window_t w, int attr)
 int
 main(int argc, char **argv)
 {
-	int i,c;
+	int c;
+	size_t i;
 	xcb_window_t w = 0;
 
 	if (argc < 2 || (strncmp(argv[1], "-h", 2) == 0)) {
@@ -66,6 +67,11 @@ main(int argc, char **argv)
 	}
 
 	init_xcb(&conn);
+
+	if (argc == 2) {
+		w = strtoul(argv[1], NULL, 16);
+		exists(conn, w) ? exit(0) : exit(1);
+	}
 
 	for (c=2; argv[c]; c++) {
 		w = strtoul(argv[c], NULL, 16);
@@ -86,7 +92,6 @@ main(int argc, char **argv)
 					  break;
 				case 'o': ignore(conn, w) ? exit(0) : exit(1);
 				case 'm': mapped(conn, w) ? exit(0) : exit(1);
-				default : exists(conn, w) ? exit(0) : exit(1);
 			}
 			/* add a space if more attribute come after */
 			putc(i+1 < strlen(argv[1]) ? ' ' : '\n',stdout);

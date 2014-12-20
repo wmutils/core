@@ -1,0 +1,27 @@
+.Dd December 13, 2014
+.Dt WTP 1
+.Os wmutils
+.Sh NAME
+.Nm wtp
+.Nd teleport window (absolutely)
+.Sh SYNOPSIS
+.Nm wtp
+.Ar x y w h wid
+.Sh DESCRIPTION
+.Nm
+moves (or teleports) the window
+.Ar wid
+to the position given by
+.Ar x
+and
+.Ar y ,
+and resize it to width
+.Ar w
+and height
+.Ar h .
+Value are absolute value from the the upper-left-hand corner.
+.Sh ENVIRONMENT
+.Nm
+acts on the X display specified by the
+.Ev DISPLAY
+variable.

@@ -1,0 +1,43 @@
+.Dd December 13, 2014
+.Dt LSW 1
+.Os wmutils
+.Sh NAME
+.Nm lsw
+.Nd list child windows
+.Sh SYNOPSIS
+.Nm lsw
+.Op Fl arou
+.Op Ar wid ...
+.Sh DESCRIPTION
+.Nm
+lists child windows of the given window.
+If no windows are given,
+.Nm
+lists the children of the root window.
+.Pp
+By default,
+.Nm
+lists only windows that are mapped (visible) and with the
+.Em override_redirect
+value set to 0 (i.e., unignored).
+.Bl -tag -width Ds
+.It Fl a
+List all windows.
+.It Fl r
+Print the ID of the root window.
+.It Fl o
+List windows whose
+.Em override_redirect
+attribute is set to 1.
+.It Fl u
+List unmapped (invisible) windows.
+.El
+.Sh ENVIRONMENT
+.Nm
+acts on the X display specified by the
+.Ev DISPLAY
+variable.
+.Sh SEE ALSO
+.Xr ignw 1 ,
+.Xr mapw 1 ,
+.Xr xargs 1

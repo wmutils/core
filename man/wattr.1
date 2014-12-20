@@ -1,0 +1,75 @@
+'\" e
+.Dd December 13, 2014
+.Dt WATTR 1
+.Os wmutils
+.Sh NAME
+.Nm wattr
+.Nd get window attributes
+.Sh SYNOPSIS
+.Nm wattr
+.Op Cm bmhwxy
+.Ar wid
+.Sh DESCRIPTION
+.Nm
+prints information about the window
+.Ar wid
+to
+.Dv stdout .
+.Pp
+What information is presented depends on the commands given to
+.Nm .
+The queried arguments are printed in the order they are requested,
+separated by a space.
+If no commands are given,
+.Nm
+will return 0 if
+.Ar wid
+exists, and 1 otherwise.
+.Bl -tag -width Ds
+.It Cm b
+Print
+.Ar wid Ns \(cqs border width.
+.It Cm x
+Print
+.Ar wid Ns \(cqs
+.EQ
+x
+.EN
+offset.
+.It Cm y
+Print
+.Ar wid Ns \(cqs
+.EQ
+y
+.EN
+offset.
+.It Cm w
+Print
+.Ar wid Ns \(cqs width.
+.It Cm h
+Print
+.Ar wid Ns \(cqs
+height.
+.It Cm m
+.Nm
+returns 0 if
+.Ar wid
+is mapped on screen, and 1 otherwise.
+.El
+.Sh ENVIRONMENT
+.Nm
+acts on the X display specified by the
+.Ev DISPLAY
+variable.
+.Sh EXAMPLES
+.Dl $ wattr m 0x01000006 && echo ismapped
+.Dl ismapped
+.Pp
+.Dl $ wattr whxy 0x01000006
+.Dl 484 244 756 166
+.Pp
+.Dl $ wattr xyhw 0x01000006
+.Dl 756 166 244 484
+.Pp
+.Dl $ wattr 0x00000000 ; echo $?
+.Dl 1

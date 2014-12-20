@@ -7,9 +7,21 @@
 
 static xcb_connection_t *conn;
 
+static void usage (const char *);
+
+static void
+usage (const char *name)
+{
+	fprintf(stderr, "usage: %s <wid> [wid...]\n", name);
+	exit(1);
+}
+
 int
 main(int argc, char **argv)
 {
+	if (argc < 2)
+		usage(argv[0]);
+
 	init_xcb(&conn);
 
 	/* assume remaining arguments are windows */

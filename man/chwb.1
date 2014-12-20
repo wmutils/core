@@ -1,0 +1,40 @@
+.Dd December 13, 2014
+.Dt CHWB 1
+.Os wmutils
+.Sh NAME
+.Nm chwb
+.Nd change window borders
+.Sh SYNOPSIS
+.Nm chwb
+.Op Fl c Ar color
+.Op Fl s Ar size
+.Ar wid Op Ar ...
+.Sh DESCRIPTION
+.Nm
+changes the border size or color of the window
+.Ar wid .
+.Bl -tag -width Ds
+.It Fl c Ar color
+Set border color of
+.Ar wid
+to
+.Ar color .
+Colors should be passed as numerical values (see
+.Xr strtoul 3 )
+in RGB format.
+.It Fl s Ar size
+Set border width of
+.Ar wid
+to
+.Ar size .
+.El
+.Sh ENVIRONMENT
+.Nm
+acts on the X display specified by the
+.Ev DISPLAY
+variable.
+.Sh EXAMPLES
+Set the border color to 128 red, 100 green, 204 blue:
+.Dl $ chwb -c 0x8064cc
+.Sh SEE ALSO
+.Xr strtoul 3

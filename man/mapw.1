@@ -1,0 +1,32 @@
+.Dd December 13, 2014
+.Dt MAPW 1
+.Os wmutils
+.Sh NAME
+.Nm mapw
+.Nd map or unmap window
+.Sh SYNOPSIS
+.Nm mapw
+.Op Fl mtu
+.Ar wid Op ...
+.Sh DESCRIPTION
+.Nm
+will either map or unmap a window from the screen,
+thus modifying the visibility state of the window.
+.Bl -tag -width Ds
+.It Fl m
+Map (show)
+.Ar wid .
+.It Fl t
+Toggle
+.Ar wid Ns \(cqs visibility.
+.It Fl u
+Unmap (hide)
+.Ar wid .
+.El
+.Sh ENVIRONMENT
+.Nm
+acts on the X display specified by the
+.Ev DISPLAY
+variable.
+.Sh SEE ALSO
+.Xr lsw 1

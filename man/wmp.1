@@ -1,0 +1,26 @@
+.Dd December 17, 2014
+.Dt WMP 1
+.Os wmutils
+.Sh NAME
+.Nm wmp
+.Nd warp mouse cursor
+.Sh SYNOPSIS
+.Nm wmp
+.Fl ar
+.Ar <x> <y>
+.Sh DESCRIPTION
+.Nm
+warps cursor to an absolute or relative position, passed by
+.Ar x
+and
+.Ar y ,
+.Sh ENVIRONMENT
+.Nm
+acts on the X display specified by the
+.Ev DISPLAY
+variable.
+.Sh EXAMPLES
+.Pp
+.Dl $ wmp a $(wattr xy `pfw`)
+.Pp
+.Dl $ wmp r -100 0
