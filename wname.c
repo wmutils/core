@@ -9,8 +9,8 @@
 
 static xcb_connection_t *conn;
 
-static void usage (char *);
-static int  get_title (xcb_window_t);
+static void usage(char *);
+static int get_title(xcb_window_t);
 
 static void
 usage (char *name)
@@ -20,7 +20,7 @@ usage (char *name)
 }
 
 static int
-get_title (xcb_window_t win)
+get_title(xcb_window_t win)
 {
 	int len = 0;
 	xcb_get_property_cookie_t cookie;
@@ -44,7 +44,8 @@ get_title (xcb_window_t win)
 	return 1;
 }
 
-int main (int argc, char **argv)
+int
+main(int argc, char **argv)
 {
 	int i, r = 0;
 

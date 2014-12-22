@@ -9,8 +9,8 @@
 
 static xcb_connection_t *conn;
 
-static void usage      (char *name);
-static void teleport   (xcb_window_t, int, int, int, int);
+static void usage (char *name);
+static void teleport (xcb_window_t, int, int, int, int);
 
 static void
 usage(char *name)
@@ -20,7 +20,7 @@ usage(char *name)
 }
 
 static void
-teleport (xcb_window_t win, int x, int y, int w, int h)
+teleport(xcb_window_t win, int x, int y, int w, int h)
 {
 	uint32_t values[4];
 	uint32_t mask =   XCB_CONFIG_WINDOW_X
@@ -37,7 +37,7 @@ teleport (xcb_window_t win, int x, int y, int w, int h)
 }
 
 int
-main (int argc, char **argv)
+main(int argc, char **argv)
 {
 	xcb_window_t win;
 

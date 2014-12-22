@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 #include <xcb/xcb.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <err.h>
 
@@ -9,7 +10,15 @@
 static xcb_connection_t *conn;
 static xcb_screen_t *scr;
 
+static void usage(char *);
 static void resize(xcb_window_t, int, int);
+
+static void
+usage(char *name)
+{
+	fprintf(stderr, "usage: %s <x> <y> <wid> [wid..]", name);
+	exit(1);
+}
 
 static void
 resize(xcb_window_t w, int x, int y)
@@ -52,7 +61,7 @@ main(int argc, char **argv)
 {
 	int x, y;
 	if (argc < 4)
-		errx(1, "usage: %s <x> <y> <wid> [wid..]", argv[0]);
+		usage(argv[0]);
 
 	init_xcb(&conn);
 	get_screen(conn, &scr);

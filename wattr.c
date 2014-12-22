@@ -8,11 +8,10 @@
 
 #include "util.h"
 
-char *argv0;
 static xcb_connection_t *conn;
 
-static void usage(void);
-static int getattribute(xcb_window_t, int);
+static void usage(char *);
+static int get_attribute(xcb_window_t, int);
 
 enum {
 	ATTR_W = 1 << 0,
@@ -26,14 +25,14 @@ enum {
 };
 
 static void
-usage(void)
+usage(char *name)
 {
-	fprintf(stderr, "usage: %s [-h] [bmiwhxy] <wid>\n", argv0);
+	fprintf(stderr, "usage: %s [-h] [bmiwhxy] <wid>\n", name);
 	exit(1);
 }
 
 static int
-getattribute(xcb_window_t w, int attr)
+get_attribute(xcb_window_t w, int attr)
 {
 	xcb_get_geometry_cookie_t c;
 	xcb_get_geometry_reply_t *r;
@@ -64,8 +63,7 @@ main(int argc, char **argv)
 	xcb_window_t w = 0;
 
 	if (argc < 2 || (strncmp(argv[1], "-h", 2) == 0)) {
-		argv0 = argv[0];
-		usage();
+		usage(argv[0]);
 	}
 
 	init_xcb(&conn);
@@ -82,15 +80,15 @@ main(int argc, char **argv)
 			switch (argv[1][i]) {
 				case 'i': printf("0x%08x", w);
 					  break;
-				case 'b': printf("%d", getattribute(w, ATTR_B));
+				case 'b': printf("%d", get_attribute(w, ATTR_B));
 					  break;
-				case 'h': printf("%d", getattribute(w, ATTR_H));
+				case 'h': printf("%d", get_attribute(w, ATTR_H));
 					  break;
-				case 'x': printf("%d", getattribute(w, ATTR_X));
+				case 'x': printf("%d", get_attribute(w, ATTR_X));
 					  break;
-				case 'y': printf("%d", getattribute(w, ATTR_Y));
+				case 'y': printf("%d", get_attribute(w, ATTR_Y));
 					  break;
-				case 'w': printf("%d", getattribute(w, ATTR_W));
+				case 'w': printf("%d", get_attribute(w, ATTR_W));
 					  break;
 				case 'o': ignore(conn, w) ? exit(0) : exit(1);
 				case 'm': mapped(conn, w) ? exit(0) : exit(1);

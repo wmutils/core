@@ -12,14 +12,14 @@ static xcb_connection_t *conn;
 static void usage (char *name);
 
 static void
-usage (char *name)
+usage(char *name)
 {
 	fprintf(stderr, "usage: %s <wid>\n", name);
 	exit(1);
 }
 
 int
-main (int argc, char **argv)
+main(int argc, char **argv)
 {
 	xcb_window_t win;
 
