@@ -24,14 +24,28 @@
 
 static xcb_connection_t *conn;
 
-static void usage      (char *name);
-static void setborder  (int, int, xcb_window_t);
+static void usage      	(const char *);
+static void setborder  	(int, int, xcb_window_t);
+static void helper		(const char *);
+
 
 static void
-usage (char *name)
+usage (const char *name)
 {
 	fprintf(stderr, "usage: %s <-sc ...> <wid> [wid...]\n", name);
 	exit(1);
+}
+
+static void
+helper(const char *name)
+{
+	fprintf(stdout,
+			"usage: %s <-sc ...> <wid> [wid...]\n"
+			"change window border\n\n"
+			"\t-s width\t\tset width border\n"
+			"\t-c color\t\tset color border\n",
+			name);
+	exit(0);
 }
 
 static void
@@ -78,7 +92,7 @@ main (int argc, char **argv)
 			color = strtoul(EARGF(usage(argv0)), NULL, 16);
 			break;
 		case 'h':
-			usage(argv0);
+			helper(argv0);
 	} ARGEND
 
 	/* assume remaining arguments are windows */
