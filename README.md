@@ -53,6 +53,12 @@ dependencies
 
 wmutils only relies on the XCB library.
 
+license
+-------
+
+All the code of this project is released under the
+[ISC](http://www.openbsd.org/policy.html) license. See LICENSE file.
+
 build & install
 ---------------
 
