@@ -37,6 +37,8 @@ center_pointer(xcb_window_t win)
 
 	values[0] = XCB_STACK_MODE_ABOVE;
 	xcb_configure_window(conn, win, XCB_CONFIG_WINDOW_STACK_MODE, values);
+
+	free(geom);
 }
 
 static void
@@ -76,7 +78,6 @@ move(xcb_window_t win, int x, int y)
 
 	xcb_configure_window(conn, win, XCB_CONFIG_WINDOW_X
 			| XCB_CONFIG_WINDOW_Y, values);
-
 
 	center_pointer(win);
 	free(geom);

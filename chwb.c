@@ -49,8 +49,6 @@ main (int argc, char **argv)
 	char *argv0;
 	int color,bw;
 
-	init_xcb(&conn);
-
 	color = bw = -1;
 
 	if (argc < 2)
@@ -63,9 +61,11 @@ main (int argc, char **argv)
 		case 'c':
 			color = strtoul(EARGF(usage(argv0)), NULL, 16);
 			break;
-		case 'h':
+        default:
 			usage(argv0);
 	} ARGEND
+
+	init_xcb(&conn);
 
 	/* assume remaining arguments are windows */
 	while (*argv)

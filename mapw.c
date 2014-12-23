@@ -65,5 +65,7 @@ main(int argc, char **argv)
 	}
 	xcb_flush(conn);
 
+	kill_xcb(&conn);
+
 	return 0;
 }

@@ -40,6 +40,7 @@ exists(xcb_connection_t *con, xcb_window_t w)
 	if (r == NULL)
 		return 0;
 
+	free(r);
 	return 1;
 }
 

@@ -58,6 +58,8 @@ list_windows(xcb_window_t w, int listmask)
 		if (should_list(wc[i], listmask))
 			printf("0x%08x\n", wc[i]);
 	}
+
+	free(wc);
 }
 
 int
