@@ -39,6 +39,9 @@ main(int argc, char **argv)
 	char *argv0;
 	int mode = ABSOLUTE;
 
+	if (argc != 2)
+		usage(argv[0]);
+
 	ARGBEGIN {
 		case 'a': mode = ABSOLUTE;
 			  break;
@@ -46,9 +49,6 @@ main(int argc, char **argv)
 			  break;
 		default : usage(argv0);
 	} ARGEND;
-
-	if (argc != 2)
-		usage(argv0);
 
 	init_xcb(&conn);
 	get_screen(conn, &scr);
