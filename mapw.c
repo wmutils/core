@@ -14,15 +14,14 @@ enum {
 	TOGGLE  = 1 << 2
 };
 
-char *argv0;
 static xcb_connection_t *conn;
 
-static void usage(void);
+static void usage(char *);
 
 static void
-usage(void)
+usage(char *name)
 {
-	fprintf(stderr, "usage: %s [-h] [-mut <wid> [wid..]]\n", argv0);
+	fprintf(stderr, "usage: %s [-h] [-mut <wid> [wid..]]\n", name);
 	exit(1);
 }
 
@@ -31,16 +30,17 @@ main(int argc, char **argv)
 {
 	int mapflag = 0;
 	xcb_window_t w = 0;
+	char *argv0;
 
 	ARGBEGIN {
 		case 'm': mapflag = MAP;    break;
 		case 'u': mapflag = UNMAP;  break;
 		case 't': mapflag = TOGGLE; break;
-		default : usage();
+		default : usage(argv0);
 	} ARGEND;
 
 	if (argc < 1 || mapflag == 0)
-		usage();
+		usage(argv0);
 
 	init_xcb(&conn);
 
@@ -55,11 +55,10 @@ main(int argc, char **argv)
 			xcb_unmap_window(conn, w);
 			break;
 		case TOGGLE:
-			if (mapped(conn, w)) {
+			if (mapped(conn, w))
 				xcb_unmap_window(conn, w);
-			} else {
+			else
 				xcb_map_window(conn, w);
-			}
 			break;
 		}
 	}

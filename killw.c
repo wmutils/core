@@ -9,10 +9,10 @@
 
 static xcb_connection_t *conn;
 
-static void usage (const char *);
+static void usage(char *);
 
 static void
-usage (const char *name)
+usage (char *name)
 {
 	fprintf(stderr, "usage: %s <wid> [wid...]\n", name);
 	exit(1);

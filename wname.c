@@ -13,7 +13,7 @@ static void usage(char *);
 static int get_title(xcb_window_t);
 
 static void
-usage (char *name)
+usage(char *name)
 {
 	fprintf(stderr, "usage: %s <wid>\n", name);
 	exit(1);

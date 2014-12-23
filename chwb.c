@@ -10,24 +10,24 @@
 
 static xcb_connection_t *conn;
 
-static void usage      (char *name);
-static void setborder  (int, int, xcb_window_t);
+static void usage(char *name);
+static void set_border(int, int, xcb_window_t);
 
 static void
-usage (char *name)
+usage(char *name)
 {
 	fprintf(stderr, "usage: %s <-sc ...> <wid> [wid...]\n", name);
 	exit(1);
 }
 
 static void
-setborder (int bw, int color, xcb_window_t win)
+set_border(int width, int color, xcb_window_t win)
 {
 	uint32_t values[1];
 	int mask;
 
-	if (bw != -1) {
-		values[0] = bw;
+	if (width != -1) {
+		values[0] = width;
 		mask = XCB_CONFIG_WINDOW_BORDER_WIDTH;
 		xcb_configure_window(conn, win, mask, values);
 
@@ -44,32 +44,33 @@ setborder (int bw, int color, xcb_window_t win)
 }
 
 int
-main (int argc, char **argv)
+main(int argc, char **argv)
 {
 	char *argv0;
-	int color,bw;
+	int color,width;
 
-	color = bw = -1;
+	color = width = -1;
 
 	if (argc < 2)
 		usage(argv[0]);
 
 	ARGBEGIN {
 		case 's':
-			bw = strtoul(EARGF(usage(argv0)), NULL, 10);
+			width = strtoul(EARGF(usage(argv0)), NULL, 10);
 			break;
 		case 'c':
 			color = strtoul(EARGF(usage(argv0)), NULL, 16);
 			break;
-        default:
+		default:
 			usage(argv0);
+			/* NOTREACHED */
 	} ARGEND
 
 	init_xcb(&conn);
 
 	/* assume remaining arguments are windows */
 	while (*argv)
-		setborder(bw, color, strtoul(*argv++, NULL, 16));
+		set_border(width, color, strtoul(*argv++, NULL, 16));
 
 	xcb_flush(conn);
 

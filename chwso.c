@@ -8,26 +8,26 @@
 #include "arg.h"
 #include "util.h"
 
-static xcb_connection_t          *conn;
+static xcb_connection_t *conn;
 
-static void usage    (char *);
-static void stack    (xcb_window_t, uint32_t[1]);
+static void usage(char *);
+static void stack(xcb_window_t, uint32_t[1]);
 
 static void
-usage (char *name)
+usage(char *name)
 {
 	fprintf(stderr, "usage %s -rli <wid>\n", name);
 	exit(1);
 }
 
 static void
-stack (xcb_window_t win, uint32_t values[1])
+stack(xcb_window_t win, uint32_t values[1])
 {
 	xcb_configure_window(conn, win, XCB_CONFIG_WINDOW_STACK_MODE, values);
 }
 
 int
-main (int argc, char **argv)
+main(int argc, char **argv)
 {
 	xcb_window_t win;
 	uint32_t values[1];
@@ -43,10 +43,18 @@ main (int argc, char **argv)
 		return 1;
 
 	ARGBEGIN {
-		case 'r': values[0] = XCB_STACK_MODE_ABOVE;    break;
-		case 'l': values[0] = XCB_STACK_MODE_BELOW;    break;
-		case 'i': values[0] = XCB_STACK_MODE_OPPOSITE; break;
-		default:  usage(argv0);                        break;
+		case 'r':
+			values[0] = XCB_STACK_MODE_ABOVE;
+			break;
+		case 'l':
+			values[0] = XCB_STACK_MODE_BELOW;
+			break;
+		case 'i':
+			values[0] = XCB_STACK_MODE_OPPOSITE;
+			break;
+		default:
+			usage(argv0);
+			break;
 	} ARGEND
 
 	stack(win, values);

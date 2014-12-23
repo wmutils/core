@@ -10,7 +10,7 @@
 
 static xcb_connection_t *conn;
 
-static void usage (char *name);
+static void usage (char *);
 
 static void
 usage(char *name)

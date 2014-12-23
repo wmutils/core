@@ -8,11 +8,10 @@
 #include "arg.h"
 #include "util.h"
 
-char *argv0;
 static xcb_connection_t *conn;
 static xcb_screen_t *scrn;
 
-static void usage(void);
+static void usage(char *);
 static int should_list(xcb_window_t, int);
 static void list_windows(xcb_window_t, int);
 
@@ -23,9 +22,9 @@ enum {
 };
 
 static void
-usage(void)
+usage(char *name)
 {
-	fprintf(stderr, "usage: %s [-houra] [wid...]\n", argv0);
+	fprintf(stderr, "usage: %s [-houra] [wid...]\n", name);
 	exit(1);
 }
 
@@ -66,13 +65,14 @@ int
 main(int argc, char **argv)
 {
 	int listmask = 0, rootflag = 0;
+	char *argv0;
 
 	ARGBEGIN {
 		case 'a': listmask |= LIST_ALL; break;
 		case 'u': listmask |= LIST_HIDDEN; break;
 		case 'o': listmask |= LIST_IGNORE; break;
 		case 'r': rootflag = 1; break;
-		default : usage();
+		default : usage(argv0);
 	} ARGEND;
 
 	init_xcb(&conn);
