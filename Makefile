@@ -28,6 +28,9 @@ all: binutils manpages
 
 binutils: $(BIN)
 
+debug: CFLAGS += -O0 -g -pg -DDEBUG
+debug: binutils
+
 manpages:
 	cd man; $(MAKE) $(MFLAGS)
 
