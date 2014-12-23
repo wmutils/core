@@ -1,18 +1,4 @@
-/**
-*      Copyright (c) 2014, Broseph <dcat (at) iotek (dot) org>
-*
-*      Permission to use, copy, modify, and/or distribute this software for any
-*      purpose with or without fee is hereby granted, provided that the above
-*      copyright notice and this permission notice appear in all copies.
-*
-*      THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-*      WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-*      MERCHANTABILITY AND FITNESS IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-*      ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-*      WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-*      ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-*      OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-**/
+/* See LICENSE file for copyright and license details. */
 
 #include <xcb/xcb.h>
 #include <stdlib.h>
@@ -26,14 +12,14 @@ static xcb_connection_t *conn;
 static void usage (char *name);
 
 static void
-usage (char *name)
+usage(char *name)
 {
 	fprintf(stderr, "usage: %s <wid>\n", name);
 	exit(1);
 }
 
 int
-main (int argc, char **argv)
+main(int argc, char **argv)
 {
 	xcb_window_t win;
 

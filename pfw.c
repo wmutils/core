@@ -9,10 +9,10 @@
 
 static xcb_connection_t *conn;
 
-static xcb_window_t focuswindow(void);
+static xcb_window_t focus_window(void);
 
 static xcb_window_t
-focuswindow(void)
+focus_window(void)
 {
 	xcb_window_t w = 0;
 	xcb_get_input_focus_cookie_t c;
@@ -33,7 +33,7 @@ main(int argc, char **argv)
 {
 	init_xcb(&conn);
 
-	printf("0x%08x\n", focuswindow());
+	printf("0x%08x\n", focus_window());
 
 	kill_xcb(&conn);
 	return 0;

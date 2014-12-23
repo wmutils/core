@@ -14,27 +14,27 @@ enum {
 };
 
 static xcb_connection_t *conn;
-static xcb_screen_t     *scr;
+static xcb_screen_t *scr;
 
-static void usage (char *);
-static void warp_cursor (int, int, int);
+static void usage(char *);
+static void warp_cursor(int, int, int);
 
 static void
-usage (char *name)
+usage(char *name)
 {
 	fprintf(stderr, "usage: %s -ar <x> <y>\n", name);
 	exit(1);
 }
 
 static void
-warp_cursor (int x, int y, int mode)
+warp_cursor(int x, int y, int mode)
 {
 	xcb_warp_pointer(conn, XCB_NONE, mode ? XCB_NONE : scr->root,
 			0, 0, 0, 0, x, y);
 }
 
 int
-main (int argc, char **argv)
+main(int argc, char **argv)
 {
 	char *argv0;
 	int mode = ABSOLUTE;

@@ -1,20 +1,7 @@
-/**
-*      Copyright (c) 2014, Broseph <dcat (at) iotek (dot) org>
-*
-*      Permission to use, copy, modify, and/or distribute this software for any
-*      purpose with or without fee is hereby granted, provided that the above
-*      copyright notice and this permission notice appear in all copies.
-*
-*      THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-*      WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-*      MERCHANTABILITY AND FITNESS IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-*      ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-*      WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-*      ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-*      OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-**/
+/* See LICENSE file for copyright and license details. */
 
 #include <xcb/xcb.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <err.h>
 
@@ -23,11 +10,20 @@
 static xcb_connection_t *conn;
 static xcb_screen_t *scr;
 
-static void move (xcb_window_t, int, int);
-static void center_pointer (xcb_window_t);
+static void usage(char *);
+static void move(xcb_window_t, int, int);
+static void center_pointer(xcb_window_t);
 
 static void
-center_pointer (xcb_window_t win) {
+usage(char *name)
+{
+	fprintf(stderr, "usage: %s <x> <y> <win>", name);
+	exit(1);
+}
+
+static void
+center_pointer(xcb_window_t win)
+{
 	uint32_t values[1];
 	xcb_get_geometry_reply_t *geom;
 	geom = xcb_get_geometry_reply(conn, xcb_get_geometry(conn, win), NULL);
@@ -44,7 +40,8 @@ center_pointer (xcb_window_t win) {
 }
 
 static void
-move (xcb_window_t win, int x, int y) {
+move(xcb_window_t win, int x, int y)
+{
 	uint32_t values[2];
 	int real;
 	xcb_get_geometry_reply_t *geom;
@@ -86,11 +83,12 @@ move (xcb_window_t win, int x, int y) {
 }
 
 int
-main (int argc, char **argv) {
+main(int argc, char **argv)
+{
 	xcb_window_t win;
 
 	if (argc != 4)
-		errx(1, "usage: %s <x> <y> <win>", argv[0]);
+		usage(argv[0]);
 
 	init_xcb(&conn);
 
