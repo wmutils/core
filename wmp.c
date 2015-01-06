@@ -39,7 +39,7 @@ main(int argc, char **argv)
 	char *argv0;
 	int mode = ABSOLUTE;
 
-	if (argc != 5)
+	if (argc != 4)
 		usage(argv[0]);
 
 	ARGBEGIN {
