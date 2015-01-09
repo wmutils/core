@@ -7,7 +7,7 @@
 .Nd get window attributes
 .Sh SYNOPSIS
 .Nm wattr
-.Op Cm bmhwxy
+.Op Cm bmiowhxy
 .Ar wid
 .Sh DESCRIPTION
 .Nm
@@ -26,6 +26,9 @@ will return 0 if
 .Ar wid
 exists, and 1 otherwise.
 .Bl -tag -width Ds
+.It Cm i
+Print
+.Ar wid
 .It Cm b
 Print
 .Ar wid Ns \(cqs border width.
@@ -50,6 +53,9 @@ Print
 Print
 .Ar wid Ns \(cqs
 height.
+.It Cm o
+.Nm
+returns 0 if the override_redirect attribute is set on the window.
 .It Cm m
 .Nm
 returns 0 if
