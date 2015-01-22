@@ -50,9 +50,6 @@ resize(xcb_window_t w, int x, int y)
 
 	xcb_configure_window(conn, w, mask, val);
 
-	xcb_warp_pointer(conn, XCB_NONE, w, 0, 0, 0, 0, r->width  + x,
-			r->height + y);
-
 	free(r);
 }
 

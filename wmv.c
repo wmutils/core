@@ -12,33 +12,12 @@ static xcb_screen_t *scr;
 
 static void usage(char *);
 static void move(xcb_window_t, int, int);
-static void center_pointer(xcb_window_t);
 
 static void
 usage(char *name)
 {
 	fprintf(stderr, "usage: %s <x> <y> <win>", name);
 	exit(1);
-}
-
-static void
-center_pointer(xcb_window_t win)
-{
-	uint32_t values[1];
-	xcb_get_geometry_reply_t *geom;
-	geom = xcb_get_geometry_reply(conn, xcb_get_geometry(conn, win), NULL);
-
-	if (!geom)
-		errx(1, "center_pointer: missing geometry!");
-
-	xcb_warp_pointer(conn, XCB_NONE, win, 0, 0, 0, 0,
-			(geom->width  + (geom->border_width * 2)) / 2,
-			(geom->height + (geom->border_width * 2)) / 2);
-
-	values[0] = XCB_STACK_MODE_ABOVE;
-	xcb_configure_window(conn, win, XCB_CONFIG_WINDOW_STACK_MODE, values);
-
-	free(geom);
 }
 
 static void
@@ -79,7 +58,6 @@ move(xcb_window_t win, int x, int y)
 	xcb_configure_window(conn, win, XCB_CONFIG_WINDOW_X
 			| XCB_CONFIG_WINDOW_Y, values);
 
-	center_pointer(win);
 	free(geom);
 }
 
