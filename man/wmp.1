@@ -6,14 +6,17 @@
 .Nd warp mouse cursor
 .Sh SYNOPSIS
 .Nm wmp
-.Fl ar
-.Ar <x> <y>
+.Fl [ ar
+.Ar <x> <y> ]
+.Ar [ wid ]
 .Sh DESCRIPTION
 .Nm
 warps cursor to an absolute or relative position, passed by
 .Ar x
 and
-.Ar y ,
+.Ar y .
+Returns the position relative to the root window, or 
+.Ar wid .
 .Sh ENVIRONMENT
 .Nm
 acts on the X display specified by the
@@ -24,3 +27,9 @@ variable.
 .Dl $ wmp a $(wattr xy `pfw`)
 .Pp
 .Dl $ wmp r -100 0
+.Pp
+.Dl $ wmp 0x01600006
+.Dl 311 49
+.Pp
+.Dl $ wmp
+.Dl 915 548

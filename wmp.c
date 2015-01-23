@@ -13,17 +13,37 @@ enum {
 	RELATIVE = 1
 };
 
-static xcb_connection_t *conn;
 static xcb_screen_t *scr;
+static xcb_connection_t *conn;
 
 static void usage(char *);
+static void spot_cursor(int, uint32_t);
 static void warp_cursor(int, int, int);
 
 static void
 usage(char *name)
 {
-	fprintf(stderr, "usage: %s -ar <x> <y>\n", name);
+	fprintf(stderr, "usage: %s [-ar <x> <y>] [wid]\n", name);
 	exit(1);
+}
+
+static void
+spot_cursor(int mode, uint32_t win)
+{
+	xcb_query_pointer_reply_t *r;
+	xcb_query_pointer_cookie_t c;
+
+	c = xcb_query_pointer(conn, win);
+	r = xcb_query_pointer_reply(conn, c, NULL);
+
+	if (r == NULL)
+		errx(1, "cannot retrieve pointer position");
+
+	if (r->child != XCB_NONE) {
+		printf("%d %d\n", r->win_x, r->win_y);
+	} else {
+		printf("%d %d\n", r->root_x, r->root_y);
+	}
 }
 
 static void
@@ -38,9 +58,7 @@ main(int argc, char **argv)
 {
 	char *argv0;
 	int mode = ABSOLUTE;
-
-	if (argc != 4)
-		usage(argv[0]);
+	uint32_t win;
 
 	ARGBEGIN {
 		case 'a': mode = ABSOLUTE;
@@ -53,7 +71,18 @@ main(int argc, char **argv)
 	init_xcb(&conn);
 	get_screen(conn, &scr);
 
-	warp_cursor(atoi(argv[0]), atoi(argv[1]), mode);
+	switch (argc) {
+		case 0:
+		case 1:
+			win = argc > 0 ? strtoul(*argv, NULL, 16) : scr->root;
+			spot_cursor(mode, win);
+			break;
+		case 2:
+			warp_cursor(atoi(argv[0]), atoi(argv[1]), mode);
+			break;
+		default:
+			usage(argv0);
+	}
 	
 	xcb_flush(conn);
 
