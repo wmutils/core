@@ -71,6 +71,7 @@ main(int argc, char **argv)
 	if (argc == 2) {
 		w = strtoul(argv[1], NULL, 16);
 		ret = exists(conn, w) ? 0 : 1;
+                printf("%d\n",ret);
 		goto end;
 	}
 
@@ -99,10 +100,12 @@ main(int argc, char **argv)
 					break;
 				case 'o':
 					ret = ignore(conn, w) ? 0 : 1;
-					goto end;
+                                        printf("%d",ret);
+                                        break;
 				case 'm':
 					ret = mapped(conn, w) ? 0 : 1;
-					goto end;
+                                        printf("%d",ret);
+                                        break;
 				default: kill_xcb(&conn); usage(argv[0]);
 			}
 			/* add a space if more attribute come after */
@@ -112,6 +115,4 @@ main(int argc, char **argv)
 
 end:
 	kill_xcb(&conn);
-
-	return ret;
 }
