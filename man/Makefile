@@ -1,6 +1,6 @@
 include ../config.mk
 
-SRC =           \
+MAN =           \
 	pfw.1   \
 	lsw.1   \
 	mapw.1  \
@@ -16,16 +16,7 @@ SRC =           \
 	wname.1 \
 	wmp.1
 
-MAN = $(SRC:.1=.1.gz)
-
 .POSIX:
-.SUFFIXES: .1 .1.gz
-
-all: $(MAN)
-
-.1.1.gz:
-	@echo "GZ $<"
-	@$(GZ) -c $< > $@
 
 install: $(MAN)
 	mkdir -p $(DESTDIR)$(MANPREFIX)/man1/
@@ -36,6 +27,3 @@ uninstall:
 	@for page in $(MAN); do \
 		rm -f $(DESTDIR)$(MANPREFIX)/man1/$$page; \
 	done
-
-clean :
-	rm -f $(MAN)

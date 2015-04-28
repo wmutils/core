@@ -19,17 +19,14 @@ SRC =           \
 
 OBJ = $(SRC:.c=.o)
 BIN = $(SRC:.c=)
-MAN = $(SRC:.c=.1.gz)
+MAN = $(SRC:.c=.1)
 
 .POSIX:
 .SUFFIXES: .1 .1.gz
 
-all: binutils manpages
+all: binutils
 
 binutils: $(BIN)
-
-manpages:
-	cd man; $(MAKE) $(MFLAGS)
 
 $(OBJ): $(HDR) util.o
 
@@ -44,15 +41,14 @@ $(OBJ): $(HDR) util.o
 install: $(BIN)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin/
 	cp -f $(BIN) $(DESTDIR)$(PREFIX)/bin/
-	cd man; $(MAKE) $(MFLAGS) install
+	cd man; $(MAKE) install
 
 uninstall:
 	@echo "uninstalling binaries"
 	@for util in $(BIN); do \
 		rm -f $(DESTDIR)$(PREFIX)/bin/$$util; \
 	done
-	cd man; $(MAKE) $(MFLAGS) uninstall
+	cd man; $(MAKE) uninstall
 
 clean :
 	rm -f $(OBJ) $(BIN) util.o
-	cd man; $(MAKE) $(MFLAGS) clean

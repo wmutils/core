@@ -1,9 +1,8 @@
 PREFIX:=/usr
-MANPREFIX:=$(PREFIX)/share/man
+MANPREFIX:=$(PREFIX)/man
 
 CC      := cc
 LD      := $(CC)
-GZ      := gzip
 
 CFLAGS  += -std=c99 -pedantic -Wall -Os
 LDFLAGS += -lxcb
