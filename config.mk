@@ -1,9 +1,9 @@
-PREFIX ?= /usr
-MANPREFIX := $(PREFIX)/man
+PREFIX = /usr
+MANPREFIX = $(PREFIX)/man
 
-CC      ?= cc
-LD      := $(CC)
+CC      = cc
+LD      = $(CC)
 
-CFLAGS  += -std=c99 -pedantic -Wall -Os
-LDFLAGS += -lxcb
+CFLAGS  = -std=c99 -pedantic -Wall -Os
+LDFLAGS = -lxcb
 
