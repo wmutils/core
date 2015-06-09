@@ -67,7 +67,21 @@ System-wide installation (default PREFIX is `/usr`):
     $ make
     # make install
 
-Fakeroot installation:
+Here are the varialbes you can override, along with their default values:
 
-    $ make
-    $ make DESTDIR=$PWD/newroot install
+    CC         =  cc
+    LD         =  $(CC)
+    CFLAGS     =  -std=c99 -pedantic -Wall -Os
+    LDFLAGS    =  -lxcb
+    PREFIX     =  /usr
+    MANPREFIX  =  $(PREFIX)/man
+    DESTDIR    =
+
+You can override them by passing them on the command line:
+
+    make DESTDIR=/newroot install
+
+Or by setting them via the environment:
+
+    CC=c99; export CC
+    make -e
