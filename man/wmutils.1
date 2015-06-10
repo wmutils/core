@@ -1,0 +1,60 @@
+.Dd June 9, 2015
+.Dt WMUTILS 1
+.Os wmutils
+.Sh NAME
+.Nm wmutils
+.Nd window manipulation utilities
+.Sh DESCRIPTION
+.Nm
+is a compilation of utilities for manipulating windows in X
+.Sh COMMANDS
+.Bl -tag -width Ds -offset 60
+.It chwb
+change window's border
+.It chwso
+change window's stacking order
+.It ignw
+ignore/unignore window
+.It killw
+kill windows
+.It lsw
+list windows
+.It mapw
+map/unmap windows
+.It pfw
+print focused window
+.It wattr
+show window's attributes
+.It wmp
+move the mouse pointer
+.It wmv
+move a window
+.It wname
+get a window's name
+.It wrs
+resize a window
+.It wtf
+focus a window
+.It wtp
+teleport a window
+.El
+.Sh ENVIRONMENT
+.Nm
+acts on the X display specified by the
+.Ev DISPLAY
+variable.
+.Sh SEE ALSO
+.Xr chwb 1 ,
+.Xr chwso 1 ,
+.Xr ignw 1 ,
+.Xr killw 1 ,
+.Xr lsw 1 ,
+.Xr mapw 1 ,
+.Xr pfw 1 ,
+.Xr wattr 1 ,
+.Xr wmp 1 ,
+.Xr wmv 1 ,
+.Xr wname 1 ,
+.Xr wrs 1 ,
+.Xr wtf 1 ,
+.Xr wtp 1
