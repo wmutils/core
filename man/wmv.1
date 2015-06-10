@@ -4,9 +4,10 @@
 .Os wmutils
 .Sh NAME
 .Nm wmv
-.Nd move windows (relatively)
+.Nd move windows
 .Sh SYNOPSIS
 .Nm wmv
+.Op Fl a
 .Ar x y wid
 .Sh DESCRIPTION
 .Nm wmv
@@ -25,6 +26,14 @@ pixels in the
 y
 .EN
 direction.
+.Bl -tag -width Ds
+.It Fl a
+Absolute mode. The window will be centered to the 
+.Ar x
+and
+.Ar y
+coordinates.
+.El
 .Sh ENVIRONMENT
 .Nm
 acts on the X display specified by the

@@ -7,21 +7,26 @@
 
 #include "util.h"
 
+enum {
+	ABSOLUTE = 0,
+	RELATIVE = 1
+};
+
 static xcb_connection_t *conn;
 static xcb_screen_t *scr;
 
 static void usage(char *);
-static void move(xcb_window_t, int, int);
+static void move(xcb_window_t, int, int, int);
 
 static void
 usage(char *name)
 {
-	fprintf(stderr, "usage: %s <x> <y> <win>", name);
+	fprintf(stderr, "usage: %s [-a] <x> <y> <win>", name);
 	exit(1);
 }
 
 static void
-move(xcb_window_t win, int x, int y)
+move(xcb_window_t win, int mode, int x, int y)
 {
 	uint32_t values[2];
 	int real;
@@ -34,6 +39,10 @@ move(xcb_window_t win, int x, int y)
 	if (!geom)
 		return;
 
+	if (mode == ABSOLUTE) {
+		x -= geom->x + geom->width /2;
+		y -= geom->y + geom->height/2;
+	}
 	values[0] = x ? geom->x + x : geom->x;
 	values[1] = y ? geom->y + y : geom->y;
 
@@ -64,21 +73,24 @@ move(xcb_window_t win, int x, int y)
 int
 main(int argc, char **argv)
 {
-	xcb_window_t win;
-
-	if (argc != 4)
+	int x, y, mode = RELATIVE;
+	if (argc < 4)
 		usage(argv[0]);
 
 	init_xcb(&conn);
+	get_screen(conn, &scr);
 
-	scr = xcb_setup_roots_iterator(xcb_get_setup(conn)).data;
-	win = scr->root;
+	if (argv[1][0] == '-' && argv[1][1] == 'a') {
+		mode = ABSOLUTE;
+		argv++;
+	}
 
-	win = strtoul(argv[3], NULL, 16);
-	if (!win)
-		errx(1, "invalid win");
+	x = atoi(*(++argv));
+	y = atoi(*(++argv));
 
-	move(win, atoi(argv[1]), atoi(argv[2]));
+	while (*argv)
+		move(strtoul(*argv++, NULL, 16), mode, x, y);
+
 	xcb_flush(conn);
 
 	kill_xcb(&conn);
