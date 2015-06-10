@@ -7,21 +7,26 @@
 
 #include "util.h"
 
+enum {
+	ABSOLUTE = 0,
+	RELATIVE = 1
+};
+
 static xcb_connection_t *conn;
 static xcb_screen_t *scr;
 
 static void usage(char *);
-static void resize(xcb_window_t, int, int);
+static void resize(xcb_window_t, int, int, int);
 
 static void
 usage(char *name)
 {
-	fprintf(stderr, "usage: %s <x> <y> <wid> [wid..]", name);
+	fprintf(stderr, "usage: %s [-a] <x> <y> <wid> [wid..]", name);
 	exit(1);
 }
 
 static void
-resize(xcb_window_t w, int x, int y)
+resize(xcb_window_t w, int mode, int x, int y)
 {
 	uint32_t val[3];
 	uint32_t mask = XCB_CONFIG_WINDOW_WIDTH
@@ -35,6 +40,11 @@ resize(xcb_window_t w, int x, int y)
 
 	if (r == NULL)
 		return;
+
+	if (mode == ABSOLUTE) {
+		x -= r->x + r->width;
+		y -= r->y + r->height;
+	}
 
 	if ((r->x + r->width + 2*r->border_width + x) > scr->width_in_pixels)
 		x = scr->width_in_pixels - (
@@ -56,18 +66,23 @@ resize(xcb_window_t w, int x, int y)
 int
 main(int argc, char **argv)
 {
-	int x, y;
+	int x, y, mode = RELATIVE;
 	if (argc < 4)
 		usage(argv[0]);
 
 	init_xcb(&conn);
 	get_screen(conn, &scr);
 
+	if (argv[1][0] == '-' && argv[1][1] == 'a') {
+		mode = ABSOLUTE;
+		argv++;
+	}
+
 	x = atoi(*(++argv));
 	y = atoi(*(++argv));
 
 	while (*argv)
-		resize(strtoul(*argv++, NULL, 16), x, y);
+		resize(strtoul(*argv++, NULL, 16), mode, x, y);
 
 	xcb_flush(conn);
 

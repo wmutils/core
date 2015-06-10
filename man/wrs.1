@@ -3,9 +3,10 @@
 .Os wmutils
 .Sh NAME
 .Nm wrs
-.Nd resize windows (relatively)
+.Nd resize windows
 .Sh SYNOPSIS
 .Nm wrs
+.Op Fl a
 .Ar x y wid Op ...
 .Sh DESCRIPTION
 .Nm
@@ -15,6 +16,14 @@ based on the relative pixel values
 .Ar x
 and
 .Ar y .
+.Bl -tag -width Ds
+.It Fl a
+Absolute mode. The window will be resized up to the 
+.Ar x
+and
+.Ar y
+coordinates.
+.El
 .Sh ENVIRONMENT
 .Nm
 acts on the X display specified by the
