@@ -1,5 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <xcb/xcb.h>
@@ -19,6 +20,18 @@ usage(char *name)
 	exit(1);
 }
 
+static
+xcb_atom_t xcb_atom_get(xcb_connection_t *conn, char *name)
+{
+	xcb_intern_atom_cookie_t cookie = xcb_intern_atom(conn, 0, strlen(name), name);
+	xcb_intern_atom_reply_t *reply = xcb_intern_atom_reply(conn, cookie, NULL);
+
+	if (!reply)
+		return XCB_ATOM_STRING;
+
+	return reply->atom;
+}
+
 static int
 get_title(xcb_window_t win)
 {
@@ -27,7 +40,7 @@ get_title(xcb_window_t win)
 	xcb_get_property_reply_t *r;
 
 	cookie = xcb_get_property(conn, 0, win,
-			XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 0L, 32L);
+			xcb_atom_get(conn, "_NET_WM_NAME"), xcb_atom_get(conn, "UTF8_STRING"), 0L, 32L);
 	r = xcb_get_property_reply(conn, cookie, NULL);
 
 	if (r) {
