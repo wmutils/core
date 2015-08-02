@@ -41,7 +41,6 @@ without being added to this list, so take it with a grain of salt.
 * wattr - show window's attributes
 * wmp   - move the mouse pointer
 * wmv   - move a window
-* wname - get a window's name
 * wrs   - resize a window
 * wtf   - focus a window
 * wtp   - teleport a window
