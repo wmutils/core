@@ -27,7 +27,7 @@ list_windows(xcb_window_t w, int listmask)
 	int i, wn;
 	xcb_window_t *wc;
 
-	wn = get_windows(conn, w, &wc);
+	wn = get_windows(w, &wc);
 
 	if (wc == NULL)
 		errx(1, "0x%08x: unable to retrieve children", w);

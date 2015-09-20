@@ -32,16 +32,16 @@ enum {
 	RELATIVE = 1
 };
 
-int init_xcb(xcb_connection_t **con);
-int kill_xcb(xcb_connection_t **con);
+int init_xcb();
+int kill_xcb();
 
-int is_alive(xcb_connection_t *con, xcb_window_t wid);
-int is_ignored(xcb_connection_t *con, xcb_window_t wid);
+int is_alive(xcb_window_t wid);
+int is_ignored(xcb_window_t wid);
 int is_listable(xcb_window_t wid, int mask);
-int is_mapped(xcb_connection_t *con, xcb_window_t wid);
+int is_mapped(xcb_window_t wid);
 
-int get_screen(xcb_connection_t *con, xcb_screen_t **scr);
-int get_windows(xcb_connection_t *con, xcb_window_t wid, xcb_window_t **list);
+int get_screen();
+int get_windows(xcb_window_t wid, xcb_window_t **list);
 int get_attribute(xcb_window_t, int);
 int get_cursor(int mode, uint32_t wid, int *x, int *y);
 

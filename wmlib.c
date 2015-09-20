@@ -6,32 +6,32 @@
 #include "wmlib.h"
 
 	int
-init_xcb(xcb_connection_t **con)
+init_xcb()
 {
-	*con = xcb_connect(NULL, NULL);
-	if (xcb_connection_has_error(*con))
+	conn = xcb_connect(NULL, NULL);
+	if (xcb_connection_has_error(conn))
 		return 0;
 	return 1;
 }
 
 	int
-kill_xcb(xcb_connection_t **con)
+kill_xcb()
 {
-	if (*con) {
-		xcb_disconnect(*con);
+	if (conn) {
+		xcb_disconnect(conn);
 		return 1;
 	}
 	return 0;
 }
 
 	int
-is_alive(xcb_connection_t *con, xcb_window_t w)
+is_alive(xcb_window_t w)
 {
 	xcb_get_window_attributes_cookie_t c;
 	xcb_get_window_attributes_reply_t  *r;
 
-	c = xcb_get_window_attributes(con, w);
-	r = xcb_get_window_attributes_reply(con, c, NULL);
+	c = xcb_get_window_attributes(conn, w);
+	r = xcb_get_window_attributes_reply(conn, c, NULL);
 
 	if (r == NULL)
 		return 0;
@@ -41,14 +41,14 @@ is_alive(xcb_connection_t *con, xcb_window_t w)
 }
 
 	int
-is_mapped(xcb_connection_t *con, xcb_window_t w)
+is_mapped(xcb_window_t w)
 {
 	int ms;
 	xcb_get_window_attributes_cookie_t c;
 	xcb_get_window_attributes_reply_t  *r;
 
-	c = xcb_get_window_attributes(con, w);
-	r = xcb_get_window_attributes_reply(con, c, NULL);
+	c = xcb_get_window_attributes(conn, w);
+	r = xcb_get_window_attributes_reply(conn, c, NULL);
 
 	if (r == NULL)
 		return 0;
@@ -60,14 +60,14 @@ is_mapped(xcb_connection_t *con, xcb_window_t w)
 }
 
 	int
-is_ignored(xcb_connection_t *con, xcb_window_t wid)
+is_ignored(xcb_window_t wid)
 {
 	int or;
 	xcb_get_window_attributes_cookie_t c;
 	xcb_get_window_attributes_reply_t  *r;
 
-	c = xcb_get_window_attributes(con, wid);
-	r = xcb_get_window_attributes_reply(con, c, NULL);
+	c = xcb_get_window_attributes(conn, wid);
+	r = xcb_get_window_attributes_reply(conn, c, NULL);
 
 	if (r == NULL)
 		return 0;
@@ -79,23 +79,23 @@ is_ignored(xcb_connection_t *con, xcb_window_t wid)
 }
 
 	int
-get_screen(xcb_connection_t *con, xcb_screen_t **scr)
+get_screen()
 {
-	*scr = xcb_setup_roots_iterator(xcb_get_setup(con)).data;
-	if (*scr == NULL)
+	scrn = xcb_setup_roots_iterator(xcb_get_setup(conn)).data;
+	if (scrn == NULL)
 		return 0;
 	return 1;
 }
 
 	int
-get_windows(xcb_connection_t *con, xcb_window_t w, xcb_window_t **l)
+get_windows(xcb_window_t w, xcb_window_t **l)
 {
 	uint32_t childnum = 0;
 	xcb_query_tree_cookie_t c;
 	xcb_query_tree_reply_t *r;
 
-	c = xcb_query_tree(con, w);
-	r = xcb_query_tree_reply(con, c, NULL);
+	c = xcb_query_tree(conn, w);
+	r = xcb_query_tree_reply(conn, c, NULL);
 	if (r == NULL)
 		return -1;
 
@@ -193,9 +193,9 @@ set_cursor(int x, int y, int mode)
 is_listable(xcb_window_t w, int mask)
 {
 	if ((mask & LIST_ALL)
-		|| (!is_mapped (conn, w) && mask & LIST_HIDDEN)
-		|| ( is_ignored(conn, w) && mask & LIST_IGNORE)
-		|| ( is_mapped (conn, w) && !is_ignored(conn, w) && mask == 0))
+		|| (!is_mapped (w) && mask & LIST_HIDDEN)
+		|| ( is_ignored(w) && mask & LIST_IGNORE)
+		|| ( is_mapped (w) && !is_ignored(w) && mask == 0))
 		return 1;
 
 	return 0;
@@ -224,7 +224,7 @@ move(xcb_window_t wid, int mode, int x, int y)
 {
 	int curx, cury, curw, curh, curb;
 
-	if (!is_mapped(conn, wid) || wid == scrn->root)
+	if (!is_mapped(wid) || wid == scrn->root)
 		return -1;
 	
 	curb = get_attribute(wid, ATTR_B);
@@ -261,7 +261,7 @@ resize(xcb_window_t wid, int mode, int w, int h)
 {
 	int curx, cury, curw, curh, curb;
 
-	if (!is_mapped(conn, wid) || wid == scrn->root)
+	if (!is_mapped(wid) || wid == scrn->root)
 		return -1;
 	
 	curb = get_attribute(wid, ATTR_B);

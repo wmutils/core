@@ -35,7 +35,7 @@ main(int argc, char **argv)
 
 	if (argc == 2) {
 		w = strtoul(argv[1], NULL, 16);
-		ret = is_alive(conn, w) ? 0 : 1;
+		ret = is_alive(w) ? 0 : 1;
 		goto end;
 	}
 
@@ -63,10 +63,10 @@ main(int argc, char **argv)
 					printf("%d", get_attribute(w, ATTR_W));
 					break;
 				case 'o':
-					ret = is_ignored(conn, w) ? 0 : 1;
+					ret = is_ignored(w) ? 0 : 1;
 					goto end;
 				case 'm':
-					ret = is_mapped(conn, w) ? 0 : 1;
+					ret = is_mapped(w) ? 0 : 1;
 					goto end;
 				default: kill_xcb(&conn); usage(argv[0]);
 			}

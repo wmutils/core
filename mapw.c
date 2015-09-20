@@ -50,7 +50,7 @@ main(int argc, char **argv)
 			xcb_unmap_window(conn, w);
 			break;
 		case TOGGLE:
-			if (is_mapped(conn, w))
+			if (is_mapped(w))
 				xcb_unmap_window(conn, w);
 			else
 				xcb_map_window(conn, w);
