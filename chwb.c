@@ -6,41 +6,18 @@
 #include <err.h>
 
 #include "arg.h"
-#include "util.h"
+#include "wmlib.h"
 
-static xcb_connection_t *conn;
+xcb_connection_t *conn;
+xcb_screen_t     *scrn;
 
 static void usage(char *name);
-static void set_border(int, int, xcb_window_t);
 
 static void
 usage(char *name)
 {
 	fprintf(stderr, "usage: %s <-sc ...> <wid> [wid...]\n", name);
 	exit(1);
-}
-
-static void
-set_border(int width, int color, xcb_window_t win)
-{
-	uint32_t values[1];
-	int mask;
-
-	if (width != -1) {
-		values[0] = width;
-		mask = XCB_CONFIG_WINDOW_BORDER_WIDTH;
-		xcb_configure_window(conn, win, mask, values);
-
-		xcb_flush(conn);
-	}
-
-	if (color != -1) {
-		values[0] = color;
-		mask = XCB_CW_BORDER_PIXEL;
-		xcb_change_window_attributes(conn, win, mask, values);
-
-		xcb_flush(conn);
-	}
 }
 
 int

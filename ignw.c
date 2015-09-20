@@ -6,9 +6,10 @@
 #include <xcb/xcb.h>
 
 #include "arg.h"
-#include "util.h"
+#include "wmlib.h"
 
-static xcb_connection_t *conn;
+xcb_connection_t *conn;
+xcb_screen_t     *scrn;
 
 static void usage(char *);
 static void set_override(xcb_window_t, int);

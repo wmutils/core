@@ -6,9 +6,10 @@
 #include <string.h>
 #include <err.h>
 
-#include "util.h"
+#include "wmlib.h"
 
-static xcb_connection_t *conn;
+xcb_connection_t *conn;
+xcb_screen_t     *scrn;
 
 static void usage (char *);
 
@@ -31,12 +32,7 @@ main(int argc, char **argv)
 
 	win = strtoul(argv[1], NULL, 16);
 
-	if (win) {
-		xcb_set_input_focus(conn, XCB_INPUT_FOCUS_POINTER_ROOT, win,
-				XCB_CURRENT_TIME);
-
-		xcb_flush(conn);
-	}
+	set_focus(win);
 
 	kill_xcb(&conn);
 	return 0;

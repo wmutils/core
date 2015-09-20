@@ -6,15 +6,10 @@
 #include <xcb/xcb.h>
 
 #include "arg.h"
-#include "util.h"
+#include "wmlib.h"
 
-enum {
-	MAP     = 1 << 0,
-	UNMAP   = 1 << 1,
-	TOGGLE  = 1 << 2
-};
-
-static xcb_connection_t *conn;
+xcb_connection_t *conn;
+xcb_screen_t     *scrn;
 
 static void usage(char *);
 
@@ -55,7 +50,7 @@ main(int argc, char **argv)
 			xcb_unmap_window(conn, w);
 			break;
 		case TOGGLE:
-			if (mapped(conn, w))
+			if (is_mapped(conn, w))
 				xcb_unmap_window(conn, w);
 			else
 				xcb_map_window(conn, w);

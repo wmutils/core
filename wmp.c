@@ -6,19 +6,12 @@
 #include <err.h>
 
 #include "arg.h"
-#include "util.h"
+#include "wmlib.h"
 
-enum {
-	ABSOLUTE = 0,
-	RELATIVE = 1
-};
-
-static xcb_screen_t *scr;
-static xcb_connection_t *conn;
+xcb_connection_t *conn;
+xcb_screen_t     *scrn;
 
 static void usage(char *);
-static void spot_cursor(int, uint32_t);
-static void warp_cursor(int, int, int);
 
 static void
 usage(char *name)
@@ -27,37 +20,11 @@ usage(char *name)
 	exit(1);
 }
 
-static void
-spot_cursor(int mode, uint32_t win)
-{
-	xcb_query_pointer_reply_t *r;
-	xcb_query_pointer_cookie_t c;
-
-	c = xcb_query_pointer(conn, win);
-	r = xcb_query_pointer_reply(conn, c, NULL);
-
-	if (r == NULL)
-		errx(1, "cannot retrieve pointer position");
-
-	if (r->child != XCB_NONE) {
-		printf("%d %d\n", r->win_x, r->win_y);
-	} else {
-		printf("%d %d\n", r->root_x, r->root_y);
-	}
-}
-
-static void
-warp_cursor(int x, int y, int mode)
-{
-	xcb_warp_pointer(conn, XCB_NONE, mode ? XCB_NONE : scr->root,
-			0, 0, 0, 0, x, y);
-}
-
 int
 main(int argc, char **argv)
 {
 	char *argv0;
-	int mode = ABSOLUTE;
+	int mode = ABSOLUTE, x, y;
 	uint32_t win;
 
 	ARGBEGIN {
@@ -69,16 +36,17 @@ main(int argc, char **argv)
 	} ARGEND;
 
 	init_xcb(&conn);
-	get_screen(conn, &scr);
+	get_screen(conn, &scrn);
 
 	switch (argc) {
 		case 0:
 		case 1:
-			win = argc > 0 ? strtoul(*argv, NULL, 16) : scr->root;
-			spot_cursor(mode, win);
+			win = argc > 0 ? strtoul(*argv, NULL, 16) : scrn->root;
+			if (get_cursor(mode, win, &x, &y))
+				printf("%d %d\n", x, y);
 			break;
 		case 2:
-			warp_cursor(atoi(argv[0]), atoi(argv[1]), mode);
+			set_cursor(atoi(argv[0]), atoi(argv[1]), mode);
 			break;
 		default:
 			usage(argv0);

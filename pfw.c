@@ -5,9 +5,10 @@
 #include <stdlib.h>
 #include <xcb/xcb.h>
 
-#include "util.h"
+#include "wmlib.h"
 
-static xcb_connection_t *conn;
+xcb_connection_t *conn;
+xcb_screen_t     *scrn;
 
 static xcb_window_t focus_window(void);
 

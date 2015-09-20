@@ -6,40 +6,19 @@
 #include <xcb/xcb.h>
 
 #include "arg.h"
-#include "util.h"
+#include "wmlib.h"
 
-static xcb_connection_t *conn;
-static xcb_screen_t *scrn;
+xcb_connection_t *conn;
+xcb_screen_t *scrn;
 
 static void usage(char *);
-static int should_list(xcb_window_t, int);
-static void list_windows(xcb_window_t, int);
-
-enum {
-	LIST_HIDDEN = 1 << 0,
-	LIST_IGNORE = 1 << 1,
-	LIST_ALL    = 1 << 2
-};
+static void list_windows(xcb_window_t w, int mask);
 
 static void
 usage(char *name)
 {
 	fprintf(stderr, "usage: %s [-houra] [wid...]\n", name);
 	exit(1);
-}
-
-static int
-should_list(xcb_window_t w, int mask)
-{
-	if ((mask & LIST_ALL)
-		|| (!mapped(conn, w) && mask & LIST_HIDDEN)
-		|| (ignore(conn, w) && mask & LIST_IGNORE)
-		|| (mapped(conn, w)
-			&& !ignore(conn, w)
-			&& mask == 0))
-		return 1;
-
-	return 0;
 }
 
 static void
@@ -54,7 +33,7 @@ list_windows(xcb_window_t w, int listmask)
 		errx(1, "0x%08x: unable to retrieve children", w);
 
 	for (i=0; i<wn; i++) {
-		if (should_list(wc[i], listmask))
+		if (is_listable(wc[i], listmask))
 			printf("0x%08x\n", wc[i]);
 	}
 
