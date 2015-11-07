@@ -15,7 +15,7 @@ static void usage(char *);
 static void
 usage(char *name)
 {
-	fprintf(stderr, "usage: %s [-a] <x> <y> <wid> [wid..]", name);
+	fprintf(stderr, "usage: %s [-a] <x> <y> <wid> [wid..]\n", name);
 	exit(1);
 }
 
