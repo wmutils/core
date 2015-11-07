@@ -37,9 +37,9 @@ main(int argc, char **argv)
 	char *argv0;
 
 	ARGBEGIN {
-		case 's': setflag = 1; break;
-		case 'r': setflag = 0; break;
-		default: usage(argv0);
+	case 's': setflag = 1; break;
+	case 'r': setflag = 0; break;
+	default: usage(argv0);
 	} ARGEND;
 
 	init_xcb(&conn);

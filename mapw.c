@@ -28,11 +28,19 @@ main(int argc, char **argv)
 	char *argv0;
 
 	ARGBEGIN {
-		case 'm': mapflag = MAP;    break;
-		case 'u': mapflag = UNMAP;  break;
-		case 't': mapflag = TOGGLE; break;
-		default : usage(argv0);
-	} ARGEND;
+	case 'm':
+		mapflag = MAP;
+		break;
+	case 'u':
+		mapflag = UNMAP;
+		break;
+	case 't':
+		mapflag = TOGGLE;
+		break;
+	default:
+		usage(argv0);
+		/* NOTREACHED */
+	} ARGEND
 
 	if (argc < 1 || mapflag == 0)
 		usage(argv0);

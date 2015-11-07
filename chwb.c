@@ -32,15 +32,15 @@ main(int argc, char **argv)
 		usage(argv[0]);
 
 	ARGBEGIN {
-		case 's':
-			width = strtoul(EARGF(usage(argv0)), NULL, 10);
-			break;
-		case 'c':
-			color = strtoul(EARGF(usage(argv0)), NULL, 16);
-			break;
-		default:
-			usage(argv0);
-			/* NOTREACHED */
+	case 's':
+		width = strtoul(EARGF(usage(argv0)), NULL, 10);
+		break;
+	case 'c':
+		color = strtoul(EARGF(usage(argv0)), NULL, 16);
+		break;
+	default:
+		usage(argv0);
+		/* NOTREACHED */
 	} ARGEND
 
 	init_xcb(&conn);

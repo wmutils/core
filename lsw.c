@@ -47,12 +47,22 @@ main(int argc, char **argv)
 	char *argv0;
 
 	ARGBEGIN {
-		case 'a': listmask |= LIST_ALL; break;
-		case 'u': listmask |= LIST_HIDDEN; break;
-		case 'o': listmask |= LIST_IGNORE; break;
-		case 'r': rootflag = 1; break;
-		default : usage(argv0);
-	} ARGEND;
+	case 'a':
+		listmask |= LIST_ALL;
+		break;
+	case 'u':
+		listmask |= LIST_HIDDEN;
+		break;
+	case 'o':
+		listmask |= LIST_IGNORE;
+		break;
+	case 'r':
+		rootflag = 1;
+		break;
+	default:
+		usage(argv0);
+		/* NOTREACHED */
+	} ARGEND
 
 	init_xcb(&conn);
 	get_screen(conn, &scrn);

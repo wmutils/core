@@ -37,18 +37,18 @@ main(int argc, char **argv)
 		return 1;
 
 	ARGBEGIN {
-		case 'r':
-			mode = XCB_STACK_MODE_ABOVE;
-			break;
-		case 'l':
-			mode = XCB_STACK_MODE_BELOW;
-			break;
-		case 'i':
-			mode = XCB_STACK_MODE_OPPOSITE;
-			break;
-		default:
-			usage(argv0);
-			break;
+	case 'r':
+		mode = XCB_STACK_MODE_ABOVE;
+		break;
+	case 'l':
+		mode = XCB_STACK_MODE_BELOW;
+		break;
+	case 'i':
+		mode = XCB_STACK_MODE_OPPOSITE;
+		break;
+	default:
+		usage(argv0);
+		break;
 	} ARGEND
 
 	restack(win, mode);
