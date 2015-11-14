@@ -1,6 +1,6 @@
 include config.mk
 
-HDR = arg.h wmlib.h
+HDR = arg.h
 SRC =           \
 	pfw.c   \
 	lsw.c   \
@@ -19,7 +19,6 @@ SRC =           \
 OBJ = $(SRC:.c=.o)
 BIN = $(SRC:.c=)
 MAN = $(SRC:.c=.1)
-LIB = wmlib.o
 
 .POSIX:
 .SUFFIXES: .1 .1.gz
@@ -28,11 +27,11 @@ all: binutils
 
 binutils: $(BIN)
 
-$(OBJ): $(HDR) wmlib.o
+$(OBJ): $(HDR)
 
 .o:
 	@echo "LD $@"
-	@$(LD) $< $(LIB) -o $@ $(LDFLAGS)
+	@$(LD) $< -o $@ $(LDFLAGS)
 
 .c.o:
 	@echo "CC $<"

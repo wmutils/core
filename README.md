@@ -50,7 +50,7 @@ All these tools come with a manpage ! read them for further informations.
 dependencies
 ------------
 
-wmutils only relies on the XCB library.
+wmutils only relies on the XCB library and [libwm](https://github.com/wmutils/libwm)
 
 license
 -------

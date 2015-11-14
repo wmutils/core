@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <err.h>
 #include <xcb/xcb.h>
+#include <wm.h>
 
 #include "arg.h"
-#include "wmlib.h"
 
 xcb_connection_t *conn;
 xcb_screen_t *scrn;

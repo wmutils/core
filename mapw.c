@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <err.h>
 #include <xcb/xcb.h>
+#include <wm.h>
 
 #include "arg.h"
-#include "wmlib.h"
 
 xcb_connection_t *conn;
 xcb_screen_t     *scrn;
@@ -49,23 +49,8 @@ main(int argc, char **argv)
 
 	while (*argv) {
 		w = strtoul(*argv++, NULL, 16);
-
-		switch (mapflag) {
-		case MAP:
-			xcb_map_window(conn, w);
-			break;
-		case UNMAP:
-			xcb_unmap_window(conn, w);
-			break;
-		case TOGGLE:
-			if (is_mapped(w))
-				xcb_unmap_window(conn, w);
-			else
-				xcb_map_window(conn, w);
-			break;
-		}
+		remap(w, mapflag);
 	}
-	xcb_flush(conn);
 
 	kill_xcb(&conn);
 

@@ -4,8 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <xcb/xcb.h>
-
-#include "wmlib.h"
+#include <wm.h>
 
 xcb_connection_t *conn;
 xcb_screen_t     *scrn;
