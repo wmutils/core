@@ -28,12 +28,12 @@ main(int argc, char **argv)
 	if (argc != 2 || strncmp(argv[0], "-h", 2) == 0)
 		usage(argv[0]);
 
-	init_xcb(&conn);
+	wm_init_xcb(&conn);
 
 	win = strtoul(argv[1], NULL, 16);
 
-	set_focus(win);
+	wm_set_focus(win);
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 	return 0;
 }

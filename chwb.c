@@ -43,15 +43,15 @@ main(int argc, char **argv)
 		/* NOTREACHED */
 	} ARGEND
 
-	init_xcb(&conn);
+	wm_init_xcb(&conn);
 
 	/* assume remaining arguments are windows */
 	while (*argv)
-		set_border(width, color, strtoul(*argv++, NULL, 16));
+		wm_set_border(width, color, strtoul(*argv++, NULL, 16));
 
 	xcb_flush(conn);
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 
 	return 0;
 }

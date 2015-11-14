@@ -26,8 +26,8 @@ main(int argc, char **argv)
 	if (argc < 4)
 		usage(argv[0]);
 
-	init_xcb(&conn);
-	get_screen(conn, &scrn);
+	wm_init_xcb(&conn);
+	wm_get_screen(conn, &scrn);
 
 	if (argv[1][0] == '-' && argv[1][1] == 'a') {
 		mode = ABSOLUTE;
@@ -38,11 +38,11 @@ main(int argc, char **argv)
 	y = atoi(*(++argv));
 
 	while (*argv)
-		resize(strtoul(*argv++, NULL, 16), mode, x, y);
+		wm_resize(strtoul(*argv++, NULL, 16), mode, x, y);
 
 	xcb_flush(conn);
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 
 	return 0;
 }

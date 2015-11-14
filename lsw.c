@@ -27,13 +27,13 @@ list_windows(xcb_window_t w, int listmask)
 	int i, wn;
 	xcb_window_t *wc;
 
-	wn = get_windows(w, &wc);
+	wn = wm_get_windows(w, &wc);
 
 	if (wc == NULL)
 		errx(1, "0x%08x: unable to retrieve children", w);
 
 	for (i=0; i<wn; i++) {
-		if (is_listable(wc[i], listmask))
+		if (wm_is_listable(wc[i], listmask))
 			printf("0x%08x\n", wc[i]);
 	}
 
@@ -64,8 +64,8 @@ main(int argc, char **argv)
 		/* NOTREACHED */
 	} ARGEND
 
-	init_xcb(&conn);
-	get_screen(conn, &scrn);
+	wm_init_xcb(&conn);
+	wm_get_screen(conn, &scrn);
 
 	if (rootflag == 1) {
 		printf("0x%08x\n", scrn->root);
@@ -78,7 +78,7 @@ main(int argc, char **argv)
 	while (*argv)
 		list_windows(strtoul(*argv++, NULL, 16), listmask);
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 
 	return 0;
 }

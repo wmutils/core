@@ -39,18 +39,18 @@ main(int argc, char **argv)
 		/* NOTREACHED */
 	} ARGEND
 
-	init_xcb(&conn);
-	get_screen(conn, &scrn);
+	wm_init_xcb(&conn);
+	wm_get_screen(conn, &scrn);
 
 	switch (argc) {
 	case 0:
 	case 1:
 		win = argc > 0 ? strtoul(*argv, NULL, 16) : scrn->root;
-		if (get_cursor(mode, win, &x, &y))
+		if (wm_get_cursor(mode, win, &x, &y))
 			printf("%d %d\n", x, y);
 		break;
 	case 2:
-		set_cursor(atoi(argv[0]), atoi(argv[1]), mode);
+		wm_set_cursor(atoi(argv[0]), atoi(argv[1]), mode);
 		break;
 	default:
 		usage(argv0);
@@ -59,6 +59,6 @@ main(int argc, char **argv)
 	
 	xcb_flush(conn);
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 	return 0;
 }

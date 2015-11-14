@@ -27,15 +27,15 @@ main(int argc, char **argv)
 	if (argc != 6)
 		usage(argv[0]);
 
-	init_xcb(&conn);
+	wm_init_xcb(&conn);
 
 	win = strtoul(argv[5], NULL, 16);
 	if (!win)
 		errx(1, "cannot get window");
 
-	teleport(win, atoi(argv[1]), atoi(argv[2]),
+	wm_teleport(win, atoi(argv[1]), atoi(argv[2]),
 	              atoi(argv[3]), atoi(argv[4]));
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 	return 0;
 }

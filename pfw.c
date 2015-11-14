@@ -31,10 +31,10 @@ focus_window(void)
 int
 main(int argc, char **argv)
 {
-	init_xcb(&conn);
+	wm_init_xcb(&conn);
 
 	printf("0x%08x\n", focus_window());
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 	return 0;
 }

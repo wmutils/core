@@ -25,7 +25,7 @@ main(int argc, char **argv)
 	if (argc < 2)
 		usage(argv[0]);
 
-	init_xcb(&conn);
+	wm_init_xcb(&conn);
 
 	/* assume remaining arguments are windows */
 	while (*argv)
@@ -33,7 +33,7 @@ main(int argc, char **argv)
 
 	xcb_flush(conn);
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 
 	return 0;
 }

@@ -30,7 +30,7 @@ main(int argc, char **argv)
 	if (argc != 3)
 		usage(argv[0]);
 
-	init_xcb(&conn);
+	wm_init_xcb(&conn);
 
 	win = strtoul(argv[2], NULL, 16);
 	if (!win)
@@ -51,8 +51,8 @@ main(int argc, char **argv)
 		break;
 	} ARGEND
 
-	restack(win, mode);
+	wm_restack(win, mode);
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 	return 0;
 }

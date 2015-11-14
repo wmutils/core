@@ -45,14 +45,14 @@ main(int argc, char **argv)
 	if (argc < 1 || mapflag == 0)
 		usage(argv0);
 
-	init_xcb(&conn);
+	wm_init_xcb(&conn);
 
 	while (*argv) {
 		w = strtoul(*argv++, NULL, 16);
-		remap(w, mapflag);
+		wm_remap(w, mapflag);
 	}
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 
 	return 0;
 }

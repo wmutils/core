@@ -42,14 +42,14 @@ main(int argc, char **argv)
 	default: usage(argv0);
 	} ARGEND;
 
-	init_xcb(&conn);
+	wm_init_xcb(&conn);
 
 	while (*argv)
 		set_override(strtoul(*argv++, NULL, 16), setflag);
 
 	xcb_flush(conn);
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 
 	return 0;
 }

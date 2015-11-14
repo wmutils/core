@@ -31,11 +31,11 @@ main(int argc, char **argv)
 		usage(argv[0]);
 	}
 
-	init_xcb(&conn);
+	wm_init_xcb(&conn);
 
 	if (argc == 2) {
 		w = strtoul(argv[1], NULL, 16);
-		ret = is_alive(w) ? 0 : 1;
+		ret = wm_is_alive(w) ? 0 : 1;
 		goto end;
 	}
 
@@ -48,28 +48,28 @@ main(int argc, char **argv)
 				printf("0x%08x", w);
 				break;
 			case 'b':
-				printf("%d", get_attribute(w, ATTR_B));
+				printf("%d", wm_get_attribute(w, ATTR_B));
 				break;
 			case 'h': 
-				printf("%d", get_attribute(w, ATTR_H));
+				printf("%d", wm_get_attribute(w, ATTR_H));
 				break;
 			case 'x':
-				printf("%d", get_attribute(w, ATTR_X));
+				printf("%d", wm_get_attribute(w, ATTR_X));
 				break;
 			case 'y':
-				printf("%d", get_attribute(w, ATTR_Y));
+				printf("%d", wm_get_attribute(w, ATTR_Y));
 				break;
 			case 'w':
-				printf("%d", get_attribute(w, ATTR_W));
+				printf("%d", wm_get_attribute(w, ATTR_W));
 				break;
 			case 'o':
-				ret = is_ignored(w) ? 0 : 1;
+				ret = wm_is_ignored(w) ? 0 : 1;
 				goto end;
 			case 'm':
-				ret = is_mapped(w) ? 0 : 1;
+				ret = wm_is_mapped(w) ? 0 : 1;
 				goto end;
 			default:
-				kill_xcb(&conn); usage(argv[0]);
+				wm_kill_xcb(&conn); usage(argv[0]);
 			}
 			/* add a space if more attribute come after */
 			putc(i+1 < strlen(argv[1]) ? ' ' : '\n',stdout);
@@ -77,6 +77,6 @@ main(int argc, char **argv)
 	}
 
 end:
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 	return ret;
 }
