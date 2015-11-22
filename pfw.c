@@ -9,31 +9,12 @@
 xcb_connection_t *conn;
 xcb_screen_t     *scrn;
 
-static xcb_window_t focus_window(void);
-
-static xcb_window_t
-focus_window(void)
-{
-	xcb_window_t w = 0;
-	xcb_get_input_focus_cookie_t c;
-	xcb_get_input_focus_reply_t *r;
-
-	c = xcb_get_input_focus(conn);
-	r = xcb_get_input_focus_reply(conn, c, NULL);
-	if (r == NULL)
-		errx(1, "xcb_get_input_focus");
-
-	w = r->focus;
-	free(r);
-	return w;
-}
-
 int
 main(int argc, char **argv)
 {
 	wm_init_xcb(&conn);
 
-	printf("0x%08x\n", focus_window());
+	printf("0x%08x\n", wm_get_focus());
 
 	wm_kill_xcb(&conn);
 	return 0;
