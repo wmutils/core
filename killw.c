@@ -29,7 +29,7 @@ main(int argc, char **argv)
 
 	/* assume remaining arguments are windows */
 	while (*argv)
-		xcb_kill_client(conn, strtoul(*argv++, NULL, 16));
+		xcb_destroy_window(conn, strtoul(*argv++, NULL, 16));
 
 	xcb_flush(conn);
 
