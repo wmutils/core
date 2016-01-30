@@ -21,7 +21,7 @@ static void move(xcb_window_t, int, int, int);
 static void
 usage(char *name)
 {
-	fprintf(stderr, "usage: %s [-a] <x> <y> <win>", name);
+	fprintf(stderr, "usage: %s [-a] <x> <y> <win>\n", name);
 	exit(1);
 }
 
