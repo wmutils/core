@@ -21,7 +21,7 @@ static void resize(xcb_window_t, int, int, int);
 static void
 usage(char *name)
 {
-	fprintf(stderr, "usage: %s [-a] <x> <y> <wid> [wid..]", name);
+	fprintf(stderr, "usage: %s [-a] <x> <y> <wid> [wid..]\n", name);
 	exit(1);
 }
 
