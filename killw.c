@@ -4,10 +4,11 @@
 #include <stdlib.h>
 #include <err.h>
 #include <xcb/xcb.h>
+#include <wm.h>
 
-#include "util.h"
 
-static xcb_connection_t *conn;
+xcb_connection_t *conn;
+xcb_screen_t     *scrn;
 
 static void usage(char *);
 
@@ -24,15 +25,15 @@ main(int argc, char **argv)
 	if (argc < 2)
 		usage(argv[0]);
 
-	init_xcb(&conn);
+	wm_init_xcb(&conn);
 
 	/* assume remaining arguments are windows */
 	while (*argv)
-		xcb_kill_client(conn, strtoul(*argv++, NULL, 16));
+		xcb_destroy_window(conn, strtoul(*argv++, NULL, 16));
 
 	xcb_flush(conn);
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 
 	return 0;
 }

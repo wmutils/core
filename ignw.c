@@ -4,29 +4,20 @@
 #include <stdlib.h>
 #include <err.h>
 #include <xcb/xcb.h>
+#include <wm.h>
 
 #include "arg.h"
-#include "util.h"
 
-static xcb_connection_t *conn;
+xcb_connection_t *conn;
+xcb_screen_t     *scrn;
 
 static void usage(char *);
-static void set_override(xcb_window_t, int);
 
 static void
 usage(char *name)
 {
 	fprintf(stderr, "usage: %s [-sr] <wid> [wid..]\n", name);
 	exit(1);
-}
-
-static void
-set_override(xcb_window_t w, int or)
-{
-	uint32_t mask = XCB_CW_OVERRIDE_REDIRECT;
-	uint32_t val[] = { or };
-
-	xcb_change_window_attributes(conn, w, mask, val);
 }
 
 int
@@ -36,19 +27,19 @@ main(int argc, char **argv)
 	char *argv0;
 
 	ARGBEGIN {
-		case 's': setflag = 1; break;
-		case 'r': setflag = 0; break;
-		default: usage(argv0);
+	case 's': setflag = 1; break;
+	case 'r': setflag = 0; break;
+	default: usage(argv0);
 	} ARGEND;
 
-	init_xcb(&conn);
+	wm_init_xcb(&conn);
 
 	while (*argv)
-		set_override(strtoul(*argv++, NULL, 16), setflag);
+		wm_set_override(strtoul(*argv++, NULL, 16), setflag);
 
 	xcb_flush(conn);
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 
 	return 0;
 }

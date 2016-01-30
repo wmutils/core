@@ -4,37 +4,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <xcb/xcb.h>
+#include <wm.h>
 
-#include "util.h"
-
-static xcb_connection_t *conn;
-
-static xcb_window_t focus_window(void);
-
-static xcb_window_t
-focus_window(void)
-{
-	xcb_window_t w = 0;
-	xcb_get_input_focus_cookie_t c;
-	xcb_get_input_focus_reply_t *r;
-
-	c = xcb_get_input_focus(conn);
-	r = xcb_get_input_focus_reply(conn, c, NULL);
-	if (r == NULL)
-		errx(1, "xcb_get_input_focus");
-
-	w = r->focus;
-	free(r);
-	return w;
-}
+xcb_connection_t *conn;
+xcb_screen_t     *scrn;
 
 int
 main(int argc, char **argv)
 {
-	init_xcb(&conn);
+	wm_init_xcb(&conn);
 
-	printf("0x%08x\n", focus_window());
+	printf("0x%08x\n", wm_get_focus());
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 	return 0;
 }

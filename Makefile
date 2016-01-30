@@ -1,6 +1,6 @@
 include config.mk
 
-HDR = arg.h util.h
+HDR = arg.h
 SRC =           \
 	pfw.c   \
 	lsw.c   \
@@ -27,11 +27,11 @@ all: binutils
 
 binutils: $(BIN)
 
-$(OBJ): $(HDR) util.o
+$(OBJ): $(HDR)
 
 .o:
 	@echo "LD $@"
-	@$(LD) $< util.o -o $@ $(LDFLAGS)
+	@$(LD) $< -o $@ $(LDFLAGS)
 
 .c.o:
 	@echo "CC $<"
@@ -50,4 +50,4 @@ uninstall:
 	cd man; $(MAKE) uninstall
 
 clean :
-	rm -f $(OBJ) $(BIN) util.o
+	rm -f $(OBJ) $(BIN) $(LIB)

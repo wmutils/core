@@ -4,17 +4,12 @@
 #include <stdlib.h>
 #include <err.h>
 #include <xcb/xcb.h>
+#include <wm.h>
 
 #include "arg.h"
-#include "util.h"
 
-enum {
-	MAP     = 1 << 0,
-	UNMAP   = 1 << 1,
-	TOGGLE  = 1 << 2
-};
-
-static xcb_connection_t *conn;
+xcb_connection_t *conn;
+xcb_screen_t     *scrn;
 
 static void usage(char *);
 
@@ -33,38 +28,31 @@ main(int argc, char **argv)
 	char *argv0;
 
 	ARGBEGIN {
-		case 'm': mapflag = MAP;    break;
-		case 'u': mapflag = UNMAP;  break;
-		case 't': mapflag = TOGGLE; break;
-		default : usage(argv0);
-	} ARGEND;
+	case 'm':
+		mapflag = MAP;
+		break;
+	case 'u':
+		mapflag = UNMAP;
+		break;
+	case 't':
+		mapflag = TOGGLE;
+		break;
+	default:
+		usage(argv0);
+		/* NOTREACHED */
+	} ARGEND
 
 	if (argc < 1 || mapflag == 0)
 		usage(argv0);
 
-	init_xcb(&conn);
+	wm_init_xcb(&conn);
 
 	while (*argv) {
 		w = strtoul(*argv++, NULL, 16);
-
-		switch (mapflag) {
-		case MAP:
-			xcb_map_window(conn, w);
-			break;
-		case UNMAP:
-			xcb_unmap_window(conn, w);
-			break;
-		case TOGGLE:
-			if (mapped(conn, w))
-				xcb_unmap_window(conn, w);
-			else
-				xcb_map_window(conn, w);
-			break;
-		}
+		wm_remap(w, mapflag);
 	}
-	xcb_flush(conn);
 
-	kill_xcb(&conn);
+	wm_kill_xcb(&conn);
 
 	return 0;
 }
