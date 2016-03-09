@@ -42,8 +42,8 @@ resize(xcb_window_t w, int mode, int x, int y)
 		return;
 
 	if (mode == ABSOLUTE) {
-		x -= r->x + r->width;
-		y -= r->y + r->height;
+		x -= r->width;
+		y -= r->height;
 	}
 
 	if ((r->x + r->width + 2*r->border_width + x) > scr->width_in_pixels)
