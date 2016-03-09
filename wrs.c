@@ -28,10 +28,9 @@ usage(char *name)
 static void
 resize(xcb_window_t w, int mode, int x, int y)
 {
-	uint32_t val[3];
+	uint32_t val[2];
 	uint32_t mask = XCB_CONFIG_WINDOW_WIDTH
-	              | XCB_CONFIG_WINDOW_HEIGHT
-	              | XCB_CONFIG_WINDOW_STACK_MODE;
+	              | XCB_CONFIG_WINDOW_HEIGHT;
 	xcb_get_geometry_cookie_t c;
 	xcb_get_geometry_reply_t *r;
 
@@ -56,7 +55,6 @@ resize(xcb_window_t w, int mode, int x, int y)
 
 	val[0] = r->width  + x;
 	val[1] = r->height + y;
-	val[2] = XCB_STACK_MODE_ABOVE;
 
 	xcb_configure_window(conn, w, mask, val);
 
