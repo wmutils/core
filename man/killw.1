@@ -6,11 +6,18 @@
 .Nd kill windows
 .Sh SYNOPSIS
 .Nm killw
+.Op Fl p
 .Ar wid Op ...
 .Sh DESCRIPTION
 .Nm
-kills the window
-.Ar wid .
+will destroy the window passed as an argument, and all its children.
+.Sh OPTIONS
+.Bl -tag -width Ds
+.It Fl p
+Kill the parent application of the window instead of the window itself.
+This is useful to terminate frozen applications (This will close all the windows
+belonging to the applications).
+.El
 .Sh ENVIRONMENT
 .Nm
 acts on the X display specified by the
