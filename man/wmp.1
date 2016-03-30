@@ -15,7 +15,7 @@ warps cursor to an absolute or relative position, passed by
 .Ar x
 and
 .Ar y .
-Returns the position relative to the root window, or 
+Returns the position relative to the root window, or
 .Ar wid .
 .Sh ENVIRONMENT
 .Nm
@@ -24,9 +24,9 @@ acts on the X display specified by the
 variable.
 .Sh EXAMPLES
 .Pp
-.Dl $ wmp a $(wattr xy `pfw`)
+.Dl $ wmp -a $(wattr xy $(pfw))
 .Pp
-.Dl $ wmp r -100 0
+.Dl $ wmp -r -100 0
 .Pp
 .Dl $ wmp 0x01600006
 .Dl 311 49
