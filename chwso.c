@@ -16,7 +16,7 @@ static void stack(xcb_window_t, uint32_t[1]);
 static void
 usage(char *name)
 {
-	fprintf(stderr, "usage %s -rli <wid>\n", name);
+	fprintf(stderr, "usage: %s -rli <wid>\n", name);
 	exit(1);
 }
 
