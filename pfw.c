@@ -25,6 +25,10 @@ focus_window(void)
 
 	w = r->focus;
 	free(r);
+
+	if (w == XCB_NONE || w == XCB_INPUT_FOCUS_POINTER_ROOT)
+		errx(1, "focus not set");
+
 	return w;
 }
 
