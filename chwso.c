@@ -32,7 +32,7 @@ main(int argc, char **argv)
 	xcb_window_t win;
 	uint32_t values[1];
 	char *argv0 = NULL;
-	
+
 	if (argc != 3)
 		usage(argv[0]);
 

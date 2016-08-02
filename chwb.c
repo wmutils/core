@@ -23,15 +23,30 @@ usage(char *name)
 static void
 set_border(int width, int color, xcb_window_t win)
 {
-	uint32_t values[1];
+	uint32_t values[3];
+	uint16_t curr_width;
 	int mask;
+	xcb_get_geometry_reply_t *geom;
 
 	if (width != -1) {
-		values[0] = width;
-		mask = XCB_CONFIG_WINDOW_BORDER_WIDTH;
+		geom = xcb_get_geometry_reply(conn, xcb_get_geometry(conn, win), NULL);
+		if (!geom)
+			return;
+
+		/* Windows track position based on the top left corner of the border.
+		 * To make the border move instead of the window, we move the window up and left
+		 * by the amount the border would have shifted it down and right.*/
+		curr_width = geom->border_width;
+		values[0] = geom->x + curr_width - width;
+		values[1] = geom->y + curr_width - width;
+		values[2] = width;
+
+		mask = XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y | XCB_CONFIG_WINDOW_BORDER_WIDTH ;
 		xcb_configure_window(conn, win, mask, values);
 
 		xcb_flush(conn);
+
+		free(geom);
 	}
 
 	if (color != -1) {
