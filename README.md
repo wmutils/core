@@ -84,3 +84,23 @@ Or by setting them via the environment:
 
     CC=c99; export CC
     make -e
+
+contribute
+----------
+
+You can contribute to the project in many ways; be it by testing the software,
+reporting bugs, submitting patches, or simply talking about it to other
+people!
+
+If you find a bug in the software, please report an issue. Same goes for
+feature requests, if they match the project's philosophy.
+
+When submitting pull requests, please reference the issue number. If there is
+no issue to reference, then create one and wait for a validation of the bug
+before submitting the pull request.
+
+IF YOUR PULL REQUEST DOESN'T REFER TO A VALID ISSUE, IT WILL BE DISCARDED.
+
+You can also join the [#wmutils](irc://unix.chat/wmutils) IRC channel to
+discuss your issues, submit patches or simply show us something cool you made
+using wmutils!
