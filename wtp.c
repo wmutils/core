@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 #include <xcb/xcb.h>
+#include <xcb/xcb_aux.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <err.h>
@@ -52,7 +53,7 @@ main(int argc, char **argv)
 
 	teleport(win, atoi(argv[1]), atoi(argv[2]),
 			atoi(argv[3]), atoi(argv[4]));
-	xcb_flush(conn);
+	xcb_aux_sync(conn);
 
 	kill_xcb(&conn);
 

@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 #include <xcb/xcb.h>
+#include <xcb/xcb_aux.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <err.h>
@@ -91,7 +92,7 @@ main(int argc, char **argv)
 	while (*argv)
 		move(strtoul(*argv++, NULL, 16), mode, x, y);
 
-	xcb_flush(conn);
+	xcb_aux_sync(conn);
 
 	kill_xcb(&conn);
 

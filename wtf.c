@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 #include <xcb/xcb.h>
+#include <xcb/xcb_aux.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -35,7 +36,7 @@ main(int argc, char **argv)
 		xcb_set_input_focus(conn, XCB_INPUT_FOCUS_POINTER_ROOT, win,
 				XCB_CURRENT_TIME);
 
-		xcb_flush(conn);
+		xcb_aux_sync(conn);
 	}
 
 	kill_xcb(&conn);

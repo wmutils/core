@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <err.h>
 #include <xcb/xcb.h>
+#include <xcb/xcb_aux.h>
 
 #include "arg.h"
 #include "util.h"
@@ -46,7 +47,7 @@ main(int argc, char **argv)
 	while (*argv)
 		set_override(strtoul(*argv++, NULL, 16), setflag);
 
-	xcb_flush(conn);
+	xcb_aux_sync(conn);
 
 	kill_xcb(&conn);
 

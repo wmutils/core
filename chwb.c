@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 #include <xcb/xcb.h>
+#include <xcb/xcb_aux.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <err.h>
@@ -44,7 +45,7 @@ set_border(int width, int color, xcb_window_t win)
 		mask = XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y | XCB_CONFIG_WINDOW_BORDER_WIDTH ;
 		xcb_configure_window(conn, win, mask, values);
 
-		xcb_flush(conn);
+		xcb_aux_sync(conn);
 
 		free(geom);
 	}
@@ -54,7 +55,7 @@ set_border(int width, int color, xcb_window_t win)
 		mask = XCB_CW_BORDER_PIXEL;
 		xcb_change_window_attributes(conn, win, mask, values);
 
-		xcb_flush(conn);
+		xcb_aux_sync(conn);
 	}
 }
 
@@ -87,7 +88,7 @@ main(int argc, char **argv)
 	while (*argv)
 		set_border(width, color, strtoul(*argv++, NULL, 16));
 
-	xcb_flush(conn);
+	xcb_aux_sync(conn);
 
 	kill_xcb(&conn);
 

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <err.h>
 #include <xcb/xcb.h>
+#include <xcb/xcb_aux.h>
 
 #include "arg.h"
 #include "util.h"
@@ -62,7 +63,7 @@ main(int argc, char **argv)
 			break;
 		}
 	}
-	xcb_flush(conn);
+	xcb_aux_sync(conn);
 
 	kill_xcb(&conn);
 

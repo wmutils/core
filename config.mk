@@ -5,5 +5,5 @@ CC      = cc
 LD      = $(CC)
 
 CFLAGS  = -std=c99 -pedantic -Wall -Os
-LDFLAGS = -lxcb
+LDFLAGS = -lxcb -lxcb-util
 

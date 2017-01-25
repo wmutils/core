@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <xcb/xcb.h>
+#include <xcb/xcb_aux.h>
 
 #include "util.h"
 

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <xcb/xcb.h>
+#include <xcb/xcb_aux.h>
 
 #include "util.h"
 
