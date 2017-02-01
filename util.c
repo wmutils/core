@@ -29,14 +29,20 @@ get_screen(xcb_connection_t *con, xcb_screen_t **scr)
 		errx(1, "unable to retrieve screen informations");
 }
 
+xcb_get_window_attributes_reply_t*
+get_window_attrs(xcb_connection_t *con, xcb_window_t w)
+{
+	xcb_get_window_attributes_cookie_t c;
+
+	c = xcb_get_window_attributes(con, w);
+	return xcb_get_window_attributes_reply(con, c, NULL);
+}
+
 int
 exists(xcb_connection_t *con, xcb_window_t w)
 {
-	xcb_get_window_attributes_cookie_t c;
-	xcb_get_window_attributes_reply_t  *r;
-
-	c = xcb_get_window_attributes(con, w);
-	r = xcb_get_window_attributes_reply(con, c, NULL);
+	xcb_get_window_attributes_reply_t *r;
+	r = get_window_attrs(con, w);
 
 	if (r == NULL)
 		return 0;
@@ -49,11 +55,9 @@ int
 mapped(xcb_connection_t *con, xcb_window_t w)
 {
 	int ms;
-	xcb_get_window_attributes_cookie_t c;
 	xcb_get_window_attributes_reply_t  *r;
 
-	c = xcb_get_window_attributes(con, w);
-	r = xcb_get_window_attributes_reply(con, c, NULL);
+	r = get_window_attrs(con, w);
 
 	if (r == NULL)
 		return 0;
@@ -68,11 +72,9 @@ int
 ignore(xcb_connection_t *con, xcb_window_t w)
 {
 	int or;
-	xcb_get_window_attributes_cookie_t c;
 	xcb_get_window_attributes_reply_t  *r;
 
-	c = xcb_get_window_attributes(con, w);
-	r = xcb_get_window_attributes_reply(con, c, NULL);
+	r = get_window_attrs(con, w);
 
 	if (r == NULL)
 		return 0;

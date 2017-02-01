@@ -32,10 +32,14 @@ usage(char *name)
 static int
 should_list(xcb_window_t w, int mask)
 {
+	xcb_get_window_attributes_reply_t *wa;
+
+	wa = get_window_attrs(conn, w);
+
 	if ((mask & LIST_ALL)
-		|| (!mapped(conn, w) && mask & LIST_HIDDEN)
-		|| (ignore(conn, w) && mask & LIST_IGNORE)
-		|| (mapped(conn, w)
+		|| (!wa->map_state && mask & LIST_HIDDEN)
+		|| (wa->override_redirect && mask & LIST_IGNORE)
+		|| (wa->map_state
 			&& !ignore(conn, w)
 			&& mask == 0))
 		return 1;
