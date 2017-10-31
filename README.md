@@ -100,7 +100,3 @@ no issue to reference, then create one and wait for a validation of the bug
 before submitting the pull request.
 
 IF YOUR PULL REQUEST DOESN'T REFER TO A VALID ISSUE, IT WILL BE DISCARDED.
-
-You can also join the [#wmutils](irc://unix.chat/wmutils) IRC channel to
-discuss your issues, submit patches or simply show us something cool you made
-using wmutils!
