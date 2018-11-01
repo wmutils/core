@@ -91,6 +91,7 @@ contribute
 You can contribute to the project in many ways; be it by testing the software,
 reporting bugs, submitting patches, or simply talking about it to other
 people!
+The official IRC channel for wmutils' talks is #wmutils @irc.freenode.net.
 
 If you find a bug in the software, please report an issue. Same goes for
 feature requests, if they match the project's philosophy.
