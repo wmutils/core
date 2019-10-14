@@ -9,6 +9,9 @@
 
 #include "util.h"
 
+/* use "heart" to show us your love! */
+#define XHAIR "tcross"
+
 static xcb_connection_t *conn;
 static xcb_screen_t *scr;
 
@@ -17,13 +20,21 @@ select_window(void)
 {
 	uint32_t val[] = { XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE  };
 	xcb_window_t w = 0;
+	xcb_cursor_t p;
+	xcb_cursor_context_t *ctx;
 	xcb_grab_pointer_cookie_t c;
 	xcb_grab_pointer_reply_t *r;
 	xcb_generic_event_t *e;
 
+	if (xcb_cursor_context_new(conn, scr, &ctx) < 0)
+		errx(1, "cannot instantiate cursor");
+
+	p = xcb_cursor_load_cursor(ctx, XHAIR);
+	xcb_flush(conn);
+
 	c = xcb_grab_pointer(conn, 0, scr->root,
 		XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE,
-		XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC, XCB_NONE, XCB_NONE,
+		XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC, XCB_NONE, p,
 		XCB_CURRENT_TIME);
 
 	r = xcb_grab_pointer_reply(conn, c, NULL);
@@ -40,8 +51,9 @@ select_window(void)
 			w = ((xcb_button_press_event_t*)e)->child;
 			break;
 		case XCB_BUTTON_RELEASE:
+			xcb_cursor_context_free(ctx);
 			return w;
-			break;
+			break; /* NOTREACHED */
 		}
 	}
 }
