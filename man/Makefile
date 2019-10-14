@@ -14,6 +14,7 @@ MAN =           \
 	chwb.1  \
 	ignw.1  \
 	wmp.1   \
+	slw.1   \
 	wmutils.1
 
 .POSIX:

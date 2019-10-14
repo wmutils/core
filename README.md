@@ -38,6 +38,7 @@ without being added to this list, so take it with a grain of salt.
 * lsw   - list windows
 * mapw  - map/unmap windows
 * pfw   - print focused window
+* slw   - select window interactively
 * wattr - show window's attributes
 * wmp   - move the mouse pointer
 * wmv   - move a window
