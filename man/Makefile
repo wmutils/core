@@ -15,6 +15,7 @@ MAN =           \
 	ignw.1  \
 	wmp.1   \
 	slw.1   \
+	atomx.1 \
 	wmutils.1
 
 .POSIX:

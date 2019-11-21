@@ -45,6 +45,7 @@ without being added to this list, so take it with a grain of salt.
 * wrs   - resize a window
 * wtf   - focus a window
 * wtp   - teleport a window
+* atomx - modify atoms on a window
 
 All these tools come with a manpage ! read them for further informations.
 
