@@ -17,7 +17,7 @@ static xcb_connection_t *conn;
 void
 usage(char *name)
 {
-	fprintf(stderr, "%s [-ds] wid atom [value]\n", name);
+	fprintf(stderr, "%s [-d] atom[=value] wid\n", name);
 }
 
 xcb_atom_t
@@ -86,7 +86,7 @@ get_atom(xcb_window_t wid, xcb_atom_t atom, xcb_atom_t type, char *data, size_t 
 int
 main(int argc, char **argv)
 {
-	int dflag = 0, sflag = 0;
+	int i, dflag = 0;
 	char *key, *val, *argv0;
 	char data[MAXLEN];
 	xcb_window_t wid;
@@ -96,40 +96,36 @@ main(int argc, char **argv)
 	case 'd':
 		dflag = 1;
 		break;
-	case 's':
-		sflag = 1;
-		break;
 	default:
 		usage(argv0);
 		return -1;
 	} ARGEND;
 
-	if (argc < 2 + sflag)
-		return -1;
-
-	wid = strtoul(argv[0], NULL, 16);
-	key = argv[1];
-	if (sflag)
-		val = argv[2];
+	key = strtok(argv[0], "=");
+	val = strtok(NULL, "=");
 
 	init_xcb(&conn);
 
-	/* retrieve atom ID from server */
-	atom = add_atom(XCB_ATOM_STRING, key, strlen(key));
-	if (!atom)
-		return -1;
+	for (i = 0; i < argc - 1; i++) {
+		wid = strtoul(argv[i+1], NULL, 16);
 
-	/* remove property from window */
-	if (dflag)
-		xcb_delete_property(conn, wid, atom);
+		/* retrieve atom ID from server */
+		atom = add_atom(XCB_ATOM_STRING, key, strlen(key));
+		if (!atom)
+			return -1;
 
-	/* set property on window (must be a string) */
-	if (sflag)
-		set_atom(wid, atom, XCB_ATOM_STRING, strlen(val), val);
+		/* set property on window (must be a string) */
+		if (val)
+			set_atom(wid, atom, XCB_ATOM_STRING, strlen(val), val);
 
-	/* retrieve and print atom value to stdout */
-	if (!get_atom(wid, atom, XCB_ATOM_STRING, data, MAXLEN))
-		printf("%s\n", data);
+		/* remove property from window */
+		if (dflag)
+			xcb_delete_property(conn, wid, atom);
+
+		/* retrieve and print atom value to stdout */
+		if (!get_atom(wid, atom, XCB_ATOM_STRING, data, MAXLEN))
+			printf("%s=%s\n", key, data);
+	}
 
 	kill_xcb(&conn);
 

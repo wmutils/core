@@ -6,9 +6,10 @@
 .Nd manage X atoms on a window
 .Sh SYNOPSIS
 .Nm atomx
-.Op Fl sd
-.Ar wid atom
-.Op Ar value
+.Op Fl d
+.Ar atom
+.Op Ar =value
+.Ar wid
 .Sh DESCRIPTION
 .Nm
 will print, add, change and remove X atoms on the window with ID
@@ -18,19 +19,25 @@ By default
 will print the value of the atom
 .Ar atom
 if it exists.
+.Pp
+To set an atom on a window, you must specify it as
+.Ar atom=value .
 .Bl -tag -width Ds
 .It Fl d
 Delete atom
 .Ar atom
 from the window.
-.It Fl s
-Set atom
-.Ar atom
-value to
-.Ar value .
-Any existing atom with the same name will be overwritten.
 .Sh ENVIRONMENT
 .Nm
 acts on the X display specified by the
 .Ev DISPLAY
 variable.
+.Sh EXAMPLES
+Print value of property "WM_CLASS"
+.Dl $ atomx WM_CLASS 0x00e00005
+.Pp
+Change window name to "atomx"
+.Dl $ atomx WM_NAME=atomx 0x00e00005
+.Pp
+Delete property "IS_FULLSCREEN" on a window
+.Dl $ atomx -d IS_FULLSCREEN 0x00e00005
