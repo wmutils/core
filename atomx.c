@@ -58,13 +58,13 @@ set_atom(xcb_window_t wid, xcb_atom_t atom, xcb_atom_t type, size_t len, void *d
 }
 
 int
-get_atom(xcb_window_t wid, xcb_atom_t atom, xcb_atom_t type, char *data, size_t len)
+get_atom(xcb_window_t wid, xcb_atom_t atom, char *data, xcb_atom_t *type)
 {
 	size_t n;
 	xcb_get_property_cookie_t c;
 	xcb_get_property_reply_t *r;
 
-	c = xcb_get_property(conn, 0, wid, atom, type, 0, MAXLEN);
+	c = xcb_get_property(conn, 0, wid, atom, XCB_ATOM_ANY, 0, MAXLEN);
 	r = xcb_get_property_reply(conn, c, NULL);
 	if (!r)
 		return -1;
@@ -76,6 +76,8 @@ get_atom(xcb_window_t wid, xcb_atom_t atom, xcb_atom_t type, char *data, size_t 
 
 	strncpy(data, xcb_get_property_value(r), n);
 	data[n] = 0;
+
+	*type = r->type;
 
 	free(r);
 
@@ -123,8 +125,15 @@ main(int argc, char **argv)
 			xcb_delete_property(conn, wid, atom);
 
 		/* retrieve and print atom value to stdout */
-		if (!get_atom(wid, atom, XCB_ATOM_STRING, data, MAXLEN))
-			printf("%s\n", data);
+		xcb_atom_t type;
+		if (!get_atom(wid, atom, data, &type))
+			switch (type) {
+				case XCB_ATOM_INTEGER:
+					printf("%d\n", *data);
+					break;
+				default:
+					printf("%s\n", data);
+			}
 	}
 
 	kill_xcb(&conn);
