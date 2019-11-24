@@ -124,7 +124,7 @@ main(int argc, char **argv)
 
 		/* retrieve and print atom value to stdout */
 		if (!get_atom(wid, atom, XCB_ATOM_STRING, data, MAXLEN))
-			printf("%s=%s\n", key, data);
+			printf("%s\n", data);
 	}
 
 	kill_xcb(&conn);
