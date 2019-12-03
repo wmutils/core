@@ -103,6 +103,9 @@ main(int argc, char **argv)
 		return -1;
 	} ARGEND;
 
+	if (argc < 1)
+		return -1;
+
 	key = strtok(argv[0], "=");
 	val = strtok(NULL, "=");
 
