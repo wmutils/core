@@ -68,7 +68,7 @@ System-wide installation (default PREFIX is `/usr`):
     $ make
     # make install
 
-Here are the varialbes you can override, along with their default values:
+Here are the variables you can override, along with their default values:
 
     CC         =  cc
     LD         =  $(CC)
