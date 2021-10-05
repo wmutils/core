@@ -3,6 +3,7 @@ include config.mk
 HDR = arg.h util.h
 SRC =           \
 	pfw.c   \
+	pdw.c   \
 	lsw.c   \
 	mapw.c  \
 	killw.c \
