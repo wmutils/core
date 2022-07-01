@@ -1,0 +1,24 @@
+.Dd July 01, 2022
+.Dt PDW 1
+.Os wmutils
+.Sh NAME
+.Nm pdw
+.Nd print decoration window
+.Sh SYNOPSIS
+.Nm pdw
+.Op Ar wid
+.Sh DESCRIPTION
+Print the ID of the highest parent related to
+.Ar wid
+(or currently focused window when
+.Ar wid
+is omitted).
+.Pp
+In reparenting environments, this is usually the decoration window.
+.Sh ENVIRONMENT
+.Nm
+acts on the X display specified by the
+.Ev DISPLAY
+variable.
+.Sh SEE ALSO
+.Xr pfw 1

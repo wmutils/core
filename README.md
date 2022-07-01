@@ -28,9 +28,6 @@ daemon which allow binding applications to hot keys.
 utilities
 ---------
 
-Here are the tools. This project is quite young, new tools can arrive
-without being added to this list, so take it with a grain of salt.
-
 * chwb  - change window's border
 * chwso - change window's stacking order
 * ignw  - ignore/unignore window
